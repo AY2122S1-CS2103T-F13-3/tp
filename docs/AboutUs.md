@@ -9,51 +9,47 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Chester Wong
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/chesterwongz.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/Chesterwongz)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Project Advisor
+* Role: Developer
 
-### Jane Doe
+### Eliana Pang
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/eeliana.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/eeliana)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Developer
 
-### Johnny Doe
+### Ng Lingshan
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/lingshanng.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/lingshanng)] [[portfolio](team/johndoe.md)]
 
 * Role: Developer
 * Responsibilities: Data
 
-### Jean Doe
+### Wu Xiaoyun
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/xiaoyunnn.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/Xiaoyunnn)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
-* Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Ang Koon Hwee
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/angkoonhwee.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/angkoonhwee)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
-* Responsibilities: UI
