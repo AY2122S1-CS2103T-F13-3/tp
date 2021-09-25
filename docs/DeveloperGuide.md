@@ -433,6 +433,7 @@ Use case resumes at step 2.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. Should be portable, i.e. user can transfer data from one device to another easily.
 5. Should allow users to easily navigate the app interface.
+6. Data should only be stored locally to ensure user privacy.
 
 *{More to be added}*
 
