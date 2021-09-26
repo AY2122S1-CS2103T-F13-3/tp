@@ -142,52 +142,6 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Adding a Lesson: `ladd`
-
-Adds a lesson with the corresponding details to the specified student in the address book.
-
-**Types of lesson:**
-* Recurring
-* Makeup
-
-**Lesson fields:**
-* Date of lesson `dd MMM yyyy`
-  *  e.g. `02 Jan 2018`
-* Start time `HH:mm`
-* End time `HH:mm`
-* Subject
-* Homework
-
-Format: `ladd INDEX [recurring/] date/dd MMM yyyy start/HH:mm end/HH:mm subject/SUBJECT [hw/HOMEWORK]`
-
-<div markdown="span" class="alert alert-primary">
-:bulb: The type of lesson will be inferred from the presence of the "recurring/" prefix.
-</div>
-
-Examples:
-
-* `list` followed by `ladd 1 recurring/ date/16 Sep 2021 start/15:00 end/16:00 subject/Math` (recurring lesson)
-adds the lesson to the 1st student in the address book
-
-* `find john` followed by `ladd 1 date/16 Sep 2021 start/15:30 end/17:30 subject/Science hw/TYS p2 Q2` 
-  (makeup lesson w/ homework) adds the lesson to the 1st student in the results of the `find` command.
-
-### Deleting a lesson : `ldelete`
-
-Deletes the specified lesson from the specified student in the address book.
-
-Format: `ldelete INDEX LESSON_INDEX`
-
-* Deletes the lesson of specified `LESSON_INDEX` for the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The lesson index refers to the index number shown in the lesson list of the person. 
-* The index and lesson index **must be a positive integer** 1, 2, 3, …
-
-Examples:
-* `list` followed by `ldelete 2 1` deletes the 1st lesson for the 2nd person in the address book.
-* `find Betsy` followed by `ldelete 1 1` deletes the 1st lesson for the 1st person in the results 
-  of the `find` command.
-
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
