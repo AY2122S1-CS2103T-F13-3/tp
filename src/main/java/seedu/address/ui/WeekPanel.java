@@ -18,6 +18,7 @@ import com.calendarfx.view.page.WeekPage;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import seedu.address.commons.core.LogsCenter;
@@ -32,7 +33,7 @@ public class WeekPanel extends UiPart<Region> {
 //    private final WeekPage calendarView;
     private final CalendarView calendarView;
     @FXML
-    private StackPane weekView;
+    private ScrollPane weekView;
 
     /**
      * Creates a {@code WeekPanel} with the given {@code Calendar}.
@@ -68,7 +69,7 @@ public class WeekPanel extends UiPart<Region> {
         initialiseMonthPage();
         initialiseYearPage();
 
-        weekView.getChildren().setAll(calendarView);
+        weekView.setContent(calendarView);
     }
 
     private void initialiseDayPage() {

@@ -4,9 +4,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
 <VBox styleClass="schedule-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10" />
     </padding>
-    <StackPane fx:id="weekView" VBox.vgrow="ALWAYS" />
+    <ScrollPane fx:id="weekView" fitToWidth="true" />
+<!--    <StackPane fx:id="weekView" VBox.vgrow="ALWAYS" />-->
 </VBox>
