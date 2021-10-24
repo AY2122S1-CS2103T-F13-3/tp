@@ -37,9 +37,20 @@ public class CenterPanel extends UiPart<Region> {
         displayPersonListPanel();
     }
 
+    /**
+     * Display the week page of the calendar interface
+     */
     public void showWeek() {
         displaySchedulePanel();
         weekPanel.showWeek();
+    }
+
+    /**
+     * Display the month page of the calendar interface
+     */
+    public void showMonth() {
+        displaySchedulePanel();
+        weekPanel.showMonth();
     }
 
     /**

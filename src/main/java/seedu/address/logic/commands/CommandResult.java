@@ -13,6 +13,7 @@ public class CommandResult {
         HELP, // Help information should be shown to the user.
         STUDENTS,
         WEEK, // Weekly Schedule should be shown to the user.
+        MONTH, // Monthly Schedule should be shown to the user.
         NEXT, // Go forwards to the next week schedule.
         BACK, // Go back to the previous week schedule.
         EXIT // The application should exit.

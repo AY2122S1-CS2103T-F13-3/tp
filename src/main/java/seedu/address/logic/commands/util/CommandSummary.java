@@ -14,6 +14,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.LessonAddCommand;
 import seedu.address.logic.commands.LessonDeleteCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.MonthCommand;
 import seedu.address.logic.commands.WeekCommand;
 
 /**
@@ -123,6 +124,8 @@ public class CommandSummary {
                         ListCommand.COMMAND_WORD),
                 new CommandSummary(WeekCommand.COMMAND_ACTION, WeekCommand.COMMAND_WORD,
                         WeekCommand.COMMAND_WORD),
+                new CommandSummary(MonthCommand.COMMAND_ACTION, MonthCommand.COMMAND_WORD,
+                        MonthCommand.COMMAND_WORD),
                 new CommandSummary(LessonAddCommand.COMMAND_ACTION, LessonAddCommand.COMMAND_FORMAT,
                         LessonAddCommand.COMMAND_EXAMPLE_RECURRING_LESSON),
                 new CommandSummary(LessonDeleteCommand.COMMAND_ACTION, LessonDeleteCommand.COMMAND_FORMAT,

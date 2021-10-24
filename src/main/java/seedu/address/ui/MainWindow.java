@@ -187,6 +187,11 @@ public class MainWindow extends UiPart<Stage> {
         centerPanel.goToday();
     }
 
+    private void handleMonth() {
+        centerPanel.showMonth();
+        centerPanel.goToday();
+    }
+
     private void handleNext() {
         centerPanel.goNext();
     }
@@ -222,6 +227,10 @@ public class MainWindow extends UiPart<Stage> {
 
             case WEEK:
                 handleWeek();
+                break;
+
+            case MONTH:
+                handleMonth();
                 break;
 
             case STUDENTS:
