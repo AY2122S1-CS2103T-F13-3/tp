@@ -23,7 +23,7 @@ public class MonthCommand extends Command {
             + NextCommand.COMMAND_WORD
             + "\" and \""
             + BackCommand.COMMAND_WORD
-            + ".";
+            + "\".";
 
     @Override
     public CommandResult execute() {

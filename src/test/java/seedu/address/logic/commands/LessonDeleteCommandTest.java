@@ -49,7 +49,7 @@ public class LessonDeleteCommandTest {
         LessonDeleteCommand lessonDeleteCommand = prepareLessonDeleteCommand(INDEX_FIRST_PERSON, INDEX_FIRST_LESSON);
 
         String expectedMessage = String.format(
-            LessonDeleteCommand.MESSAGE_DELETE_LESSON_SUCCESS, lesson, editedPerson);
+            LessonDeleteCommand.MESSAGE_DELETE_LESSON_SUCCESS, editedPerson.getName(), lesson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),

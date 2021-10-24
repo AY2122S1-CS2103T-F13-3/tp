@@ -68,6 +68,11 @@ public interface Model {
     boolean hasClashingLesson(Lesson lesson);
 
     /**
+     * Returns true if a person that has clashing lesson with {@code person} exists in the address book.
+     */
+    boolean hasClashingLesson(Lesson lesson, Lesson lessonToIgnore);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */

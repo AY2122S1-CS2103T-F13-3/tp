@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.lesson.Date;
 import seedu.address.model.lesson.Homework;
 import seedu.address.model.lesson.Lesson;
@@ -56,7 +57,7 @@ class JsonAdaptedLesson {
      * Converts a given {@code Lesson} into this class for Json use.
      */
     public JsonAdaptedLesson(Lesson source) {
-        date = source.getDate().value;
+        date = source.getStartDate().value;
         timeRange = source.getTimeRange().value;
         subject = source.getSubject().subject;
         lessonRates = source.getLessonRates().value;
@@ -84,7 +85,7 @@ class JsonAdaptedLesson {
         if (!Date.isValidDate(date)) {
             throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
         }
-        final Date modelDate = new Date(date);
+        final Date modelDate = new Date(StringUtil.stripLeadingZeroes(date));
 
         if (timeRange == null) {
             throw new IllegalValueException(

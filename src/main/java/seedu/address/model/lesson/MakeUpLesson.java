@@ -30,6 +30,17 @@ public class MakeUpLesson extends Lesson {
     }
 
     /**
+     * Get the date of the makeup lesson to display.
+     * Date will be start date since a makeup lesson only has one date.
+     *
+     * @return startDate Start date of the makeup lesson.
+     */
+    @Override
+    public Date getDisplayDate() {
+        return getStartDate();
+    }
+
+    /**
      * Returns true if this {@code MakeUpLesson} clashes with the given {@code Lesson}.
      *
      * @param otherLesson The other lesson to be compared with.
@@ -46,5 +57,6 @@ public class MakeUpLesson extends Lesson {
                     && getTimeRange().isClashing(otherLesson.getTimeRange());
         }
     }
+
 }
 

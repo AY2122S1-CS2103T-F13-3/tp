@@ -6,7 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalLessons.MAKEUP_LESSON;
+import static seedu.address.testutil.TypicalLessons.RECURRING_LESSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -19,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.ClashingLessonException;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
 
@@ -55,6 +59,17 @@ public class AddressBookTest {
     }
 
     @Test
+    public void resetData_withClashingLessons_throwsClashingLessonException() {
+        // Two Lessons with clashing time range fields
+        Person editedAlice = new PersonBuilder(ALICE).withLessons(RECURRING_LESSON).build();
+        Person editedBob = new PersonBuilder(BOB).withLessons(RECURRING_LESSON).build();
+        List<Person> newPersons = Arrays.asList(editedAlice, editedBob);
+        AddressBookStub newData = new AddressBookStub(newPersons);
+
+        assertThrows(ClashingLessonException.class, () -> addressBook.resetData(newData));
+    }
+
+    @Test
     public void hasPerson_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> addressBook.hasPerson(null));
     }
@@ -76,6 +91,25 @@ public class AddressBookTest {
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(addressBook.hasPerson(editedAlice));
+    }
+
+    @Test
+    public void hasClashingLesson_noLessonInAddressBook_returnsFalse() {
+        assertFalse(addressBook.hasClashingLesson(RECURRING_LESSON));
+    }
+
+    @Test
+    public void hasClashingLesson_lessonInAddressBook_returnsTrue() {
+        Person aliceWithLesson = new PersonBuilder(ALICE).withLessons(RECURRING_LESSON).build();
+        addressBook.addPerson(aliceWithLesson);
+        assertTrue(addressBook.hasClashingLesson(RECURRING_LESSON));
+    }
+
+    @Test
+    public void hasClashingLesson_lessonWithClashingTimeRangeInAddressBook_returnsTrue() {
+        Person aliceWithLesson = new PersonBuilder(ALICE).withLessons(RECURRING_LESSON).build();
+        addressBook.addPerson(aliceWithLesson);
+        assertTrue(addressBook.hasClashingLesson(MAKEUP_LESSON));
     }
 
     @Test

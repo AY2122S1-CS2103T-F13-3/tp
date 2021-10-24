@@ -105,6 +105,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasClashingLesson(Lesson lesson, Lesson lessonToIgnore) {
+        requireNonNull(lesson);
+        return addressBook.hasClashingLesson(lesson, lessonToIgnore);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }

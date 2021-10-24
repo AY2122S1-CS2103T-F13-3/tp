@@ -15,7 +15,7 @@ public class LessonCard extends UiPart<Region> {
 
     public final Lesson lesson;
 
-    @javafx.fxml.FXML
+    @FXML
     private HBox cardPane;
     @FXML
     private Label lessonId;
@@ -38,12 +38,18 @@ public class LessonCard extends UiPart<Region> {
         this.lesson = lesson;
         lessonId.setText(displayedIndex + ". ");
         title.setText(lesson.getSubject() + " (" + lesson.getTypeOfLesson() + ")");
-        date.setText("Date: " + lesson.getDate().value);
+        date.setText("Date: " + lesson.getDisplayDate().value);
         time.setText("Time: " + lesson.getTimeRange().toString());
         rates.setText("Rates: $" + lesson.getLessonRates().toString());
         lesson.getHomework().stream()
-                .sorted(Comparator.comparing(homework -> homework.description))
-                .forEach(homework -> homeworkList.getChildren()
-                        .add(new Label(homework + "\n")));
+            .sorted(Comparator.comparing(homework -> homework.description))
+            .forEach(homework -> homeworkList.getChildren()
+                .add(homeworkLabel(homework.toString())));
+    }
+
+    private Label homeworkLabel(String homework) {
+        Label label = new Label(homework);
+        label.setWrapText(true);
+        return label;
     }
 }

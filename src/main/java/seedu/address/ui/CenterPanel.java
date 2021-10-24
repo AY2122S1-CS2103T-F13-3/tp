@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,7 +20,7 @@ public class CenterPanel extends UiPart<Region> {
 
     private WeekPanel weekPanel;
 
-    private PersonListPanel personListPanel;
+    private PersonGridPanel personGridPanel;
 
     @FXML
     private StackPane centerPanelPlaceholder;
@@ -30,11 +31,11 @@ public class CenterPanel extends UiPart<Region> {
      * @param calendar The calendar in the CenterPanel.
      * @param personList The ObservableList of persons.
      */
-    public CenterPanel(Calendar calendar, ObservableList<Person> personList) {
+    public CenterPanel(Calendar calendar, ObservableList<Person> personList, ObservableList<Lesson> lessonList) {
         super(FXML);
-        personListPanel = new PersonListPanel(personList);
         weekPanel = new WeekPanel(calendar);
-        displayPersonListPanel();
+        personGridPanel = new PersonGridPanel(personList, lessonList);
+        displayPersonGridPanel(personList, lessonList);
     }
 
     /**
@@ -78,12 +79,24 @@ public class CenterPanel extends UiPart<Region> {
     }
 
     /**
-     * Bring PersonListPanel to top of the stack's child list.
+     * Bring PersonGridPanel to top of the stack's child list.
      */
-    public void displayPersonListPanel() {
-        if (!centerPanelPlaceholder.getChildren().contains(personListPanel.getRoot())) {
-            centerPanelPlaceholder.getChildren().setAll(personListPanel.getRoot());
-        }
+    public void displayPersonGridPanel(ObservableList<Person> personList, ObservableList<Lesson> lessons) {
+        personGridPanel = new PersonGridPanel(personList, lessons);
+        personGridPanel.setListPanels();
+        centerPanelPlaceholder.getChildren().setAll(personGridPanel.getRoot());
+    }
+
+    /**
+     * Bring PersonGridPanel to top of the stack's child list.
+     *
+     * @param student Selected student to view.
+     * @param lessons Lessons of the student.
+     */
+    public void displayPersonGridPanel(Person student, ObservableList<Lesson> lessons) {
+        personGridPanel.fillListPanels(student, lessons);
+        personGridPanel.setListPanels();
+        centerPanelPlaceholder.getChildren().setAll(personGridPanel.getRoot());
     }
 
     /**

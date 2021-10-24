@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <StackPane fx:id="personListPanelPlaceholder" prefHeight="400.0" prefWidth="340.0" HBox.hgrow="ALWAYS" />
+    <StackPane fx:id="lessonListPanelPlaceholder" prefWidth="300.0" HBox.hgrow="SOMETIMES" />
+</HBox>
+

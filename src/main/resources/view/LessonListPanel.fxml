@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+
+<VBox styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <Label fx:id="lessonListTitle" styleClass="cell_medium_label" />
+    <ListView fx:id="lessonListView" VBox.vgrow="ALWAYS">
+        <placeholder>
+            <Label fx:id="placeholder" wrapText="true" />
+        </placeholder>
+    </ListView>
+</VBox>

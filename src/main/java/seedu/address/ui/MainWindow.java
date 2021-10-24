@@ -22,6 +22,7 @@ import seedu.address.logic.commands.LessonAddCommand;
 import seedu.address.logic.commands.WeekCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -128,7 +129,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        centerPanel = new CenterPanel(logic.getCalendar(), logic.getFilteredPersonList());
+        centerPanel = new CenterPanel(logic.getCalendar(),
+                logic.getFilteredPersonList(), logic.getEmptyLessonList());
         centerPanelPlaceholder.getChildren().add(centerPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -200,8 +202,12 @@ public class MainWindow extends UiPart<Stage> {
         centerPanel.goBack();
     }
 
-    private void handlePersonList() {
-        centerPanel.displayPersonListPanel();
+    private void handlePersonGridPanel() {
+        centerPanel.displayPersonGridPanel(logic.getFilteredPersonList(), logic.getEmptyLessonList());
+    }
+
+    private void handlePersonGridPanel(Person student) {
+        centerPanel.displayPersonGridPanel(student, logic.getLessonList(student));
     }
 
     /**
@@ -220,6 +226,7 @@ public class MainWindow extends UiPart<Stage> {
             case HELP:
                 handleHelp();
                 break;
+            
 
             case EXIT:
                 handleExit();
@@ -234,7 +241,12 @@ public class MainWindow extends UiPart<Stage> {
                 break;
 
             case STUDENTS:
-                handlePersonList();
+                if (commandResult.getStudent().isPresent()) {
+                    Person student = commandResult.getStudent().get();
+                    handlePersonGridPanel(student);
+                } else {
+                    handlePersonGridPanel();
+                }
                 break;
 
             case NEXT:

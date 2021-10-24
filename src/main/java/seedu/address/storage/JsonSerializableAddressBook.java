@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import static seedu.address.storage.JsonAdaptedPerson.MESSAGE_CLASHING_LESSON;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +55,7 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             if (addressBook.hasClashingLesson(person.getLessons())) {
-                throw new IllegalValueException(JsonAdaptedPerson.MESSAGE_CLASHING_LESSON);
+                throw new IllegalValueException(MESSAGE_CLASHING_LESSON);
             }
             addressBook.addPerson(person);
         }

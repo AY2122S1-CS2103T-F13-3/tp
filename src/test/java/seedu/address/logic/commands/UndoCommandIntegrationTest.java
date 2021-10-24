@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.UndoRedoStackTestUtil.assertStackStatus;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_HOMEWORK_TEXTBOOK;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LESSON;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.LessonEditCommand.EditLessonDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -22,6 +24,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.EditLessonDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.LessonBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -132,6 +135,29 @@ class UndoCommandIntegrationTest {
         //Undo Lesson Add Command
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, DEFAULT_MODEL);
         assertStackStatus(Collections.emptyList(), Collections.singletonList(lessonAddCommand), undoRedoStack);
+    }
+
+    @Test
+    public void execute_undoLessonEditCommand() {
+        //Add lesson to first student
+        Lesson lesson = new LessonBuilder().build();
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedPerson = new PersonBuilder(firstPerson).withLessons(lesson).build();
+        model.setPerson(firstPerson, editedPerson);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+
+        EditLessonDescriptor descriptor = new EditLessonDescriptorBuilder(lesson)
+                .withHomeworkSet(VALID_HOMEWORK_TEXTBOOK)
+                .build();
+        LessonEditCommand lessonEditCommand = new LessonEditCommand(INDEX_FIRST_PERSON, INDEX_FIRST_LESSON, descriptor);
+        UndoCommand undoCommand = prepareUndoCommand(Collections.singletonList(lessonEditCommand));
+
+        //Check stack after Lesson Edit
+        assertStackStatus(Collections.singletonList(lessonEditCommand), Collections.emptyList(), undoRedoStack);
+
+        //Undo Lesson Add Command
+        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertStackStatus(Collections.emptyList(), Collections.singletonList(lessonEditCommand), undoRedoStack);
     }
 
     @Test

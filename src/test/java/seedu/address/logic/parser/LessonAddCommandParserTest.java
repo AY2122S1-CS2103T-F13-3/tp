@@ -22,12 +22,14 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_LESSON_RATES;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TIME_RANGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RECURRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalLessons.PAST_MAKEUP_LESSON;
+import static seedu.address.testutil.TypicalLessons.PAST_RECURRING_LESSON;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,10 +45,11 @@ import seedu.address.testutil.LessonBuilder;
 public class LessonAddCommandParserTest {
 
     private static final int FIRST_PERSON = INDEX_FIRST_PERSON.getOneBased();
+    private static final String RECURRENCE_FLAG = " " + PREFIX_RECURRING;
     private LessonAddCommandParser parser = new LessonAddCommandParser();
 
     @Test
-    public void parse_allFieldsPresent_success() {
+    public void parse_allFieldsPresentMakeUpLesson_success() {
         Lesson expectedLesson = new LessonBuilder(PAST_MAKEUP_LESSON)
                 .withHomeworkSet(VALID_HOMEWORK_POETRY).build();
 
@@ -83,10 +86,45 @@ public class LessonAddCommandParserTest {
                 .withHomeworkSet(VALID_HOMEWORK_POETRY, VALID_HOMEWORK_TEXTBOOK).build();
 
         assertParseSuccess(parser, " " + FIRST_PERSON + PAST_DATE_DESC
-                + TIME_RANGE_DESC + LESSON_RATES_DESC + SUBJECT_DESC
+                + TIME_RANGE_DESC + SUBJECT_DESC + LESSON_RATES_DESC
                 + HOMEWORK_DESC_POETRY + HOMEWORK_DESC_TEXTBOOK,
-                new LessonAddCommand(INDEX_FIRST_PERSON, expectedLessonMultipleHomework));
+            new LessonAddCommand(INDEX_FIRST_PERSON, expectedLessonMultipleHomework));
+    }
 
+    @Test
+    public void parse_allFieldsPresentRecurringLesson_success() {
+        Lesson expectedLesson = new LessonBuilder(PAST_RECURRING_LESSON)
+            .withHomeworkSet(VALID_HOMEWORK_POETRY).buildRecurring();
+
+        // whitespace only preamble
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + FIRST_PERSON + LESSON_RATES_DESC
+            + RECURRENCE_FLAG + PAST_DATE_DESC + TIME_RANGE_DESC + SUBJECT_DESC
+            + HOMEWORK_DESC_POETRY, new LessonAddCommand(INDEX_FIRST_PERSON, expectedLesson));
+
+        // multiple date - last date accepted
+        assertParseSuccess(parser, " " + FIRST_PERSON + RECURRENCE_FLAG
+            + FUTURE_DATE_DESC + LESSON_RATES_DESC
+            + PAST_DATE_DESC + TIME_RANGE_DESC + SUBJECT_DESC
+            + HOMEWORK_DESC_POETRY, new LessonAddCommand(INDEX_FIRST_PERSON, expectedLesson));
+
+        // multiple subject - last subject accepted
+        assertParseSuccess(parser, " " + FIRST_PERSON + RECURRENCE_FLAG + PAST_DATE_DESC
+            + TIME_RANGE_DESC + SUBJECT_DESC + SUBJECT_DESC + LESSON_RATES_DESC
+            + HOMEWORK_DESC_POETRY, new LessonAddCommand(INDEX_FIRST_PERSON, expectedLesson));
+
+        // multiple time ranges - last time range accepted
+        assertParseSuccess(parser, " " + FIRST_PERSON + RECURRENCE_FLAG + PAST_DATE_DESC
+            + TIME_RANGE_DESC + TIME_RANGE_DESC + SUBJECT_DESC + LESSON_RATES_DESC
+            + HOMEWORK_DESC_POETRY, new LessonAddCommand(INDEX_FIRST_PERSON, expectedLesson));
+
+        // multiple homework - all accepted
+        Lesson expectedLessonMultipleHomework = new LessonBuilder(PAST_RECURRING_LESSON)
+            .withHomeworkSet(VALID_HOMEWORK_POETRY, VALID_HOMEWORK_TEXTBOOK).buildRecurring();
+
+        assertParseSuccess(parser, " " + FIRST_PERSON + RECURRENCE_FLAG + PAST_DATE_DESC
+                + TIME_RANGE_DESC + SUBJECT_DESC + LESSON_RATES_DESC
+                + HOMEWORK_DESC_POETRY + HOMEWORK_DESC_TEXTBOOK,
+            new LessonAddCommand(INDEX_FIRST_PERSON, expectedLessonMultipleHomework));
     }
 
     @Test

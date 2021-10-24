@@ -46,7 +46,7 @@ public class LessonAddCommandTest {
         LessonAddCommand lessonAddCommand = prepareLessonAddCommand(INDEX_FIRST_PERSON, sampleLesson);
 
         String expectedMessage = String.format(LessonAddCommand.MESSAGE_ADD_LESSON_SUCCESS,
-            sampleLesson, editedPerson);
+                editedPerson.getName(), sampleLesson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),

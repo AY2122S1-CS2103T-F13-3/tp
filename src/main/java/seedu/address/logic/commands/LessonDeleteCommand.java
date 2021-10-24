@@ -15,6 +15,7 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
 import seedu.address.model.util.PersonUtil;
 
+
 /**
  * Contains integration tests (interaction with the Model) and unit tests for LessonDeleteCommand.
  */
@@ -37,7 +38,7 @@ public class LessonDeleteCommand extends UndoableCommand {
             + "Parameters: " + COMMAND_PARAMETERS + "\n"
             + "Example: " + COMMAND_EXAMPLE;
 
-    public static final String MESSAGE_DELETE_LESSON_SUCCESS = "Deleted Lesson: %1$s\nfor student: %2$s";
+    public static final String MESSAGE_DELETE_LESSON_SUCCESS = "Deleted Lesson for student %1$s:\n%2$s";
 
     private final Index index;
     private final Index lessonIndex;
@@ -70,14 +71,15 @@ public class LessonDeleteCommand extends UndoableCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
         }
 
-        List<Lesson> lessonList = lessons.stream().sorted().collect(Collectors.toList());
+        List<Lesson> lessonList = lessons.stream().collect(Collectors.toList());
         Lesson toRemove = lessonList.get(lessonIndex.getZeroBased());
 
         personAfterLessonDelete = createEditedPerson(personBeforeLessonDelete, lessonList, toRemove);
 
         model.setPerson(personBeforeLessonDelete, personAfterLessonDelete);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_DELETE_LESSON_SUCCESS, toRemove, personAfterLessonDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_LESSON_SUCCESS,
+                personAfterLessonDelete.getName(), toRemove), personAfterLessonDelete);
     }
 
     /**

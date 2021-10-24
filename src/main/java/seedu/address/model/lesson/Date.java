@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 
 /**
@@ -23,12 +24,13 @@ public class Date implements Comparable<Date> {
             + "2. MMM are alphabetical characters. e.g. Jan, Feb, ..., Dec\n"
             + "3. Must be a valid date for the year.";
 
-    // Date strings should be formatted as dd MMM uuuu, where dd and uuuu are digits.
-    // and MMM are alphabets e.g. Jan, Mar, Nov, etc.
-    public static final String VALIDATION_REGEX = "^[0-9]{2}\\s[a-zA-Z]{3}\\s[0-9]{4}";
+    /*
+    Date strings should be formatted as d MMM uuuu, where d and uuuu are digits.
+    and MMM are alphabets e.g. Jan, Mar, Nov, etc.
+     */
     public static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .appendPattern("dd MMM uuuu")
+            .appendPattern("d MMM uuuu")
             .toFormatter(Locale.ENGLISH)
             .withResolverStyle(ResolverStyle.STRICT);
 
@@ -53,13 +55,11 @@ public class Date implements Comparable<Date> {
      * @param test The string to be tested.
      */
     public static boolean isValidDate(String test) {
-        boolean isValid = true;
         try {
             LocalDate.parse(test, FORMATTER);
+            return true;
         } catch (DateTimeParseException e) {
-            isValid = false;
-        } finally {
-            return test.matches(VALIDATION_REGEX) && isValid;
+            return false;
         }
     }
 
@@ -74,6 +74,18 @@ public class Date implements Comparable<Date> {
 
     public DayOfWeek getDayOfWeek() {
         return localDate.getDayOfWeek();
+    }
+
+    /**
+     * Update the lesson date to the same day on the most recent week
+     * that has yet to be pass.
+     *
+     * @return newDate The date of the same day on the week that has yet to pass.
+     */
+    public Date updateDate() {
+        LocalDate updatedDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(getDayOfWeek()));
+        Date newDate = new Date(updatedDate.format(FORMATTER));
+        return newDate;
     }
 
     /**
