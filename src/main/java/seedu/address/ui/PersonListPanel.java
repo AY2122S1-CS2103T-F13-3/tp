@@ -21,7 +21,7 @@ public class PersonListPanel extends UiPart<Region> {
     @FXML
     private ListView<Person> personListView;
     private ObservableList<Person> personList;
-    PersonGridPanel personGridPanel;
+    private PersonGridPanel personGridPanel;
 
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
@@ -34,6 +34,9 @@ public class PersonListPanel extends UiPart<Region> {
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
 
+    /**
+     * Set lesson panel to display lessons of student selected.
+     */
     public void handleMouseClick() {
         int index = personListView.getSelectionModel().getSelectedIndex();
         Person student = personList.get(index);
