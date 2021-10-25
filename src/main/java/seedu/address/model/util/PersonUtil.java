@@ -2,6 +2,8 @@ package seedu.address.model.util;
 
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.AcadLevel;
 import seedu.address.model.person.AcadStream;
@@ -16,7 +18,7 @@ import seedu.address.model.person.School;
 import seedu.address.model.tag.Tag;
 
 /**
- * Helper functions for handling edits to Person.
+ * Helper functions for handling operations for Person.
  */
 public class PersonUtil {
     /**
@@ -45,5 +47,11 @@ public class PersonUtil {
         return new Person(updatedName, updatedPhone, updatedEmail, updatedParentPhone, updatedParentEmail,
                 updatedAddress, updatedSchool, updatedAcadStream, updatedAcadLevel, updatedOutstandingFee,
                 updatedRemark, updatedTags, updatedLessons);
+    }
+
+    public static ObservableList<Lesson> getLessonList(Person student) {
+        ObservableList<Lesson> internalList = FXCollections.observableArrayList();
+        internalList.addAll(student.getLessons());
+        return FXCollections.unmodifiableObservableList(internalList);
     }
 }

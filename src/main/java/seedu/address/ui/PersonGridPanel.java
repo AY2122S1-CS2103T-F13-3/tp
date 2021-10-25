@@ -1,14 +1,18 @@
 package seedu.address.ui;
 
+import java.util.logging.Logger;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
 
 public class PersonGridPanel extends UiPart<Region> {
     private static final String FXML = "PersonGridPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(PersonGridPanel.class);
 
     private PersonListPanel personListPanel;
     private LessonListPanel lessonListPanel;
@@ -25,7 +29,7 @@ public class PersonGridPanel extends UiPart<Region> {
      */
     public PersonGridPanel(ObservableList<Person> personList, ObservableList<Lesson> lessonList) {
         super(FXML);
-        personListPanel = new PersonListPanel(personList);
+        personListPanel = new PersonListPanel(personList, this);
         lessonListPanel = new LessonListPanel(lessonList);
     }
 
