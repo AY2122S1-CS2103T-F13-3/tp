@@ -49,6 +49,12 @@ public class PersonUtil {
                 updatedRemark, updatedTags, updatedLessons);
     }
 
+    /**
+     * Get the list of lessons as an unmodifiable observable list.
+     *
+     * @param student Student to get list of lessons from.
+     * @return Unmodifiable observable list of lessons.
+     */
     public static ObservableList<Lesson> getLessonList(Person student) {
         ObservableList<Lesson> internalList = FXCollections.observableArrayList();
         internalList.addAll(student.getLessons());
