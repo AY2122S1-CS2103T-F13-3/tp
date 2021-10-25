@@ -54,7 +54,7 @@ public class Person {
                   Address address, School school, AcadStream acadStream, AcadLevel acadLevel,
                   Fee outstandingFee, Remark remark, Set<Tag> tags, Set<Lesson> lessons) {
         requireAllNonNull(name, phone, email, parentPhone, parentEmail, address,
-                school, acadStream, outstandingFee, remark, tags, lessons);
+                school, acadStream, acadLevel, outstandingFee, remark, tags, lessons);
         this.name = name;
         this.phone = phone;
         this.email = email;
