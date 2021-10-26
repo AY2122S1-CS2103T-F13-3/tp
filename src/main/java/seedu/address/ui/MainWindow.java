@@ -234,7 +234,7 @@ public class MainWindow extends UiPart<Stage> {
                 handleSchedule();
             } else if (commandResult.isShowTagList()) {
                 handleShowTagList();
-            } else {
+            } else if (!commandResult.isUndoOrRedo()){
                 handlePersonGridPanel();
             }
 

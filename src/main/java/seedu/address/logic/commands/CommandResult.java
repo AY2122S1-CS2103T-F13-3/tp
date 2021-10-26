@@ -32,14 +32,19 @@ public class CommandResult {
     /** Lesson information of student should be shown to the user. */
     private final Person student;
 
+    /** Check if command was an undo or redo command */
+    private final boolean isUndoOrRedo;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     private CommandResult(String feedbackToUser, boolean isShowPersonList, boolean isShowHelp,
-                         boolean isShowTagList, boolean isShowSchedule, boolean isExit, Person student) {
+                          boolean isShowTagList, boolean isShowSchedule, boolean isUndoOrRedo,
+                          boolean isExit, Person student) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.isShowPersonList = isShowPersonList;
         this.isShowHelp = isShowHelp;
+        this.isUndoOrRedo = isUndoOrRedo;
         this.isExit = isExit;
         this.isShowTagList = isShowTagList;
         this.isShowSchedule = isShowSchedule;
@@ -51,7 +56,8 @@ public class CommandResult {
      */
     public CommandResult(String feedbackToUser, boolean isShowPersonList, boolean isShowHelp,
                          boolean isShowTagList, boolean isShowSchedule, boolean isExit) {
-        this(feedbackToUser, isShowPersonList, isShowHelp, isShowTagList, isShowSchedule, isExit, null);
+        this(feedbackToUser, isShowPersonList, isShowHelp, isShowTagList,
+            isShowSchedule, false, isExit, null);
     }
 
     /**
@@ -59,7 +65,8 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, true, false, false, false, false, null);
+        this(feedbackToUser, true, false, false,
+            false, false, false, null);
     }
 
     /**
@@ -67,7 +74,16 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser, Person student) {
-        this(feedbackToUser, true, false, false, false, false, student);
+        this(feedbackToUser, true, false, false, false, false,false, student);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser} and {@code student},
+     * and other fields set to their default value.
+     */
+    public CommandResult(String feedbackToUser, boolean isUndoOrRedo) {
+        this(feedbackToUser, true, false, false,
+            false, isUndoOrRedo, false, null);
     }
 
     /**
@@ -113,6 +129,15 @@ public class CommandResult {
      */
     public Optional<Person> getStudent() {
         return Optional.ofNullable(student);
+    }
+
+    /**
+     * Returns true if the command is an undo or redo command.
+     *
+     * @return True if the command is an undo or redo command.
+     */
+    public boolean isUndoOrRedo() {
+        return isUndoOrRedo;
     }
 
     /**

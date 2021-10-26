@@ -24,7 +24,7 @@ public class UndoCommand extends Command {
             throw new CommandException(MESSAGE_FAILURE);
         }
         undoRedoStack.popUndo().undo();
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(MESSAGE_SUCCESS, true);
     }
 
     @Override

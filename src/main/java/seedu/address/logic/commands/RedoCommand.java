@@ -23,7 +23,7 @@ public class RedoCommand extends Command {
         }
 
         undoRedoStack.popRedo().redo();
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(MESSAGE_SUCCESS, true);
     }
 
     @Override
