@@ -39,10 +39,11 @@ class JsonAdaptedHomework {
      * @throws IllegalValueException if there were any data constraints violated in the adapted homework.
      */
     public Homework toModelType() throws IllegalValueException {
-        if (!Homework.isValidDescription(description)) {
+        String strippedDescription = description.strip();
+        if (!Homework.isValidDescription(strippedDescription)) {
             throw new IllegalValueException(Homework.MESSAGE_CONSTRAINTS);
         }
-        return new Homework(description);
+        return new Homework(strippedDescription);
     }
 
 }

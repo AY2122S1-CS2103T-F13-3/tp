@@ -74,48 +74,57 @@ class JsonAdaptedLesson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted lesson.
      */
     public Lesson toModelType() throws IllegalValueException {
+        checkNullFields();
+
+        String strippedDate = date.strip();
+        if (!Date.isValidDate(strippedDate)) {
+            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
+        }
+        final Date modelDate = new Date(StringUtil.stripLeadingZeroes(strippedDate));
+
+        String strippedTimeRange = timeRange.strip();
+        if (!TimeRange.isValidTimeRange(strippedTimeRange)) {
+            throw new IllegalValueException(TimeRange.MESSAGE_CONSTRAINTS);
+        }
+        final TimeRange modelTimeRange = new TimeRange(strippedTimeRange);
+
+        String strippedSubject = subject.strip();
+        if (!Subject.isValidSubject(strippedSubject)) {
+            throw new IllegalValueException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        final Subject modelSubject = new Subject(strippedSubject);
+
+        String strippedLessonRates = lessonRates.strip();
+        if (!LessonRates.isValidLessonRates(strippedLessonRates)) {
+            throw new IllegalValueException(LessonRates.MESSAGE_CONSTRAINTS);
+        }
+        final LessonRates modelLessonRates = new LessonRates(strippedLessonRates);
+
         final List<Homework> lessonHomework = new ArrayList<>();
         for (JsonAdaptedHomework hw : homework) {
             lessonHomework.add(hw.toModelType());
         }
+        final Set<Homework> modelHomework = new HashSet<>(lessonHomework);
 
+        return isRecurring
+                ? new RecurringLesson(modelDate, modelTimeRange, modelSubject, modelHomework, modelLessonRates)
+                : new MakeUpLesson(modelDate, modelTimeRange, modelSubject, modelHomework, modelLessonRates);
+    }
+
+    private void checkNullFields() throws IllegalValueException {
         if (date == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Date.class.getSimpleName()));
         }
-        if (!Date.isValidDate(date)) {
-            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
-        }
-        final Date modelDate = new Date(StringUtil.stripLeadingZeroes(date));
-
         if (timeRange == null) {
             throw new IllegalValueException(
                     String.format(MISSING_FIELD_MESSAGE_FORMAT, TimeRange.class.getSimpleName()));
         }
-        if (!TimeRange.isValidTimeRange(timeRange)) {
-            throw new IllegalValueException(TimeRange.MESSAGE_CONSTRAINTS);
-        }
-        final TimeRange modelTimeRange = new TimeRange(timeRange);
-
         if (subject == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Subject.class.getSimpleName()));
         }
-        if (!Subject.isValidSubject(subject)) {
-            throw new IllegalValueException(Subject.MESSAGE_CONSTRAINTS);
-        }
-        final Subject modelSubject = new Subject(subject);
-
         if (lessonRates == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     LessonRates.class.getSimpleName()));
         }
-        if (!LessonRates.isValidLessonRates(lessonRates)) {
-            throw new IllegalValueException(LessonRates.MESSAGE_CONSTRAINTS);
-        }
-        final LessonRates modelLessonRates = new LessonRates(lessonRates);
-
-        final Set<Homework> modelHomework = new HashSet<>(lessonHomework);
-        return isRecurring
-                ? new RecurringLesson(modelDate, modelTimeRange, modelSubject, modelHomework, modelLessonRates)
-                : new MakeUpLesson(modelDate, modelTimeRange, modelSubject, modelHomework, modelLessonRates);
     }
 }
