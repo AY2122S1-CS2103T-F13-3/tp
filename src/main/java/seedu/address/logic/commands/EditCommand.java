@@ -117,7 +117,7 @@ public class EditCommand extends UndoableCommand {
 
         model.setPerson(personBeforeEdit, personAfterEdit);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_STUDENT_SUCCESS, personAfterEdit));
+        return new CommandResult(String.format(MESSAGE_EDIT_STUDENT_SUCCESS, personAfterEdit), personAfterEdit);
     }
 
     /**
