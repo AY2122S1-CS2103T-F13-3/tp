@@ -29,7 +29,8 @@ import seedu.address.model.tag.Tag;
  */
 class JsonAdaptedPerson {
 
-    public static final String MESSAGE_CLASHING_LESSON = "Person contains clashing lesson(s).";
+    public static final String MESSAGE_CLASHING_LESSON = "Student contains clashing lesson(s)!";
+    public static final String MESSAGE_MISSING_CONTACT = "Student does not have any contact information!";
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
 
     private final String name;
@@ -107,6 +108,9 @@ class JsonAdaptedPerson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
+        checkNullFields();
+        checkContactFields();
+
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
             personTags.add(tag.toModelType());
@@ -121,83 +125,62 @@ class JsonAdaptedPerson {
             personLessons.add(lesson);
         }
 
-        if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(name)) {
+        String strippedName = name.strip();
+        if (!Name.isValidName(strippedName)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        final Name modelName = new Name(name);
+        final Name modelName = new Name(strippedName);
 
-        if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
+        String strippedPhone = phone.strip();
+        if (!Phone.isValidPhone(strippedPhone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
         }
-        final Phone modelPhone = new Phone(phone);
+        final Phone modelPhone = new Phone(strippedPhone);
 
-        if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
+        String strippedEmail = email.strip();
+        if (!Email.isValidEmail(strippedEmail)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
         }
-        final Email modelEmail = new Email(email);
+        final Email modelEmail = new Email(strippedEmail);
 
-        if (parentPhone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(parentPhone)) {
+        String strippedParentPhone = parentPhone.strip();
+        if (!Phone.isValidPhone(strippedParentPhone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
         }
-        final Phone modelParentPhone = new Phone(parentPhone);
+        final Phone modelParentPhone = new Phone(strippedParentPhone);
 
-        if (parentEmail == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(parentEmail)) {
+        String strippedParentEmail = parentEmail.strip();
+        if (!Email.isValidEmail(strippedParentEmail)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
         }
-        final Email modelParentEmail = new Email(parentEmail);
+        final Email modelParentEmail = new Email(strippedParentEmail);
 
-        if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
+        String strippedAddress = address.strip();
+        if (!Address.isValidAddress(strippedAddress)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
         }
-        final Address modelAddress = new Address(address);
+        final Address modelAddress = new Address(strippedAddress);
 
-        if (school == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, School.class.getSimpleName()));
-        }
-        final School modelSchool = new School(school);
+        String strippedSchool = school.strip();
+        final School modelSchool = new School(strippedSchool);
 
-        if (acadStream == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, AcadStream.class.getSimpleName()));
-        }
-        final AcadStream modelAcadStream = new AcadStream(acadStream);
+        String strippedAcadStream = acadStream.strip();
+        final AcadStream modelAcadStream = new AcadStream(strippedAcadStream);
 
-        if (acadLevel == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, AcadLevel.class.getSimpleName()));
-        }
-        if (!AcadLevel.isValidAcadLevel(acadLevel)) {
+        String strippedAcadLevel = acadLevel.strip();
+        if (!AcadLevel.isValidAcadLevel(strippedAcadLevel)) {
             throw new IllegalValueException(AcadLevel.MESSAGE_CONSTRAINTS);
         }
-        final AcadLevel modelAcadLevel = new AcadLevel(acadLevel);
+        final AcadLevel modelAcadLevel = new AcadLevel(strippedAcadLevel);
 
-        if (outstandingFee == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Fee.class.getSimpleName()));
+        String strippedFee = outstandingFee.strip();
+        if (!Fee.isValidFee(strippedFee)) {
+            throw new IllegalValueException(Fee.MESSAGE_CONSTRAINTS);
         }
-        final Fee modelFee = new Fee(outstandingFee);
+        final Fee modelFee = new Fee(strippedFee);
 
-        if (remark == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
-        }
-        final Remark modelRemark = new Remark(remark);
+        String strippedRemark = remark.strip();
+        final Remark modelRemark = new Remark(strippedRemark);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
@@ -206,5 +189,49 @@ class JsonAdaptedPerson {
         return new Person(modelName, modelPhone, modelEmail, modelParentPhone, modelParentEmail,
                 modelAddress, modelSchool, modelAcadStream, modelAcadLevel, modelFee, modelRemark, modelTags,
                 modelLessons);
+    }
+
+    private void checkContactFields() throws IllegalValueException {
+        if (phone.isBlank() && parentPhone.isBlank() && email.isBlank() && parentEmail.isBlank()) {
+            throw new IllegalValueException(MESSAGE_MISSING_CONTACT);
+        }
+    }
+
+    private void checkNullFields() throws IllegalValueException {
+        if (name == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+        }
+        if (phone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        }
+        if (email == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        }
+        if (parentPhone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        }
+        if (parentEmail == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        }
+        if (address == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        }
+        if (school == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, School.class.getSimpleName()));
+        }
+        if (acadStream == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT, AcadStream.class.getSimpleName()));
+        }
+        if (acadLevel == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT, AcadLevel.class.getSimpleName()));
+        }
+        if (outstandingFee == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Fee.class.getSimpleName()));
+        }
+        if (remark == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        }
     }
 }
