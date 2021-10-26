@@ -74,7 +74,8 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser, Person student) {
-        this(feedbackToUser, true, false, false, false, false,false, student);
+        this(feedbackToUser, true, false,
+            false, false, false, false, student);
     }
 
     /**
