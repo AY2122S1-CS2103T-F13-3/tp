@@ -229,7 +229,9 @@ public abstract class Lesson implements Comparable<Lesson> {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getTypeOfLesson())
-            .append(" ")
+                .append(" Start date:")
+                .append(getStartDate())
+            .append(" Upcoming:")
             .append(getDisplayDate())
             .append("; Time: ")
             .append(getTimeRange())
