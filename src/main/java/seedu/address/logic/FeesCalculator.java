@@ -136,7 +136,6 @@ public class FeesCalculator implements Calculator {
      * Updates the Outstanding Fees field to most recent value and modify the lastAdded date.
      *
      * @param original Outstanding Fees of current amount.
-     * @param updateDay Day of the lesson.
      * @param timeRange Duration per lesson.
      * @param lessonRates Cost per hour for the lesson.
      * @return Updated Outstanding Fees object.
@@ -161,7 +160,19 @@ public class FeesCalculator implements Calculator {
         return durationInHour * lessonRates.getMonetaryValueInFloat();
     }
 
-    // i made it static just to test, and the parameters are not ideal, just for testing to see if it's correct
+
+    /**
+     * Get number of lessons passed after lastUpdated
+     *
+     * @param startDateEndTime The start date of the lesson with the end time
+     * @param endDate The end date of the recurring lesson
+     * @param lastUpdated The last updated date time
+     * @param today The current date time
+     * @param cancelledDates Cancelled dates to exclude
+     * @return
+     */
+    // Note: I made the method static just to test
+    // and the parameters are not ideal, just for testing to see if it's correct
     public static int getNumOfLessonsSinceLastUpdate(LocalDateTime startDateEndTime, LocalDate endDate,
             LocalDateTime lastUpdated, LocalDateTime today, Set<Date> cancelledDates) {
 
@@ -179,7 +190,7 @@ public class FeesCalculator implements Calculator {
         }
         LocalDateTime firstLesson = Collections.max(List.of(lessonAfterUpdate, startDateEndTime));
 
-        // the prev or same dayOfLesson before today
+        // the prev or same dayOfLesson before today, with end time
         LocalDateTime lessonBeforeToday = today.with(TemporalAdjusters.previousOrSame(dayOfLesson)).with(endTime);
         // today is on the day of lesson and before end time
         if (lessonBeforeToday.isAfter(today)) {
