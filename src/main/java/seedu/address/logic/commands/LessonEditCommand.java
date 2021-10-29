@@ -47,7 +47,7 @@ public class LessonEditCommand extends UndoableCommand {
 
     public static final String COMMAND_PARAMETERS = "INDEX "
             + "LESSON_INDEX "
-            + "[" + PREFIX_RECURRING + "[END_DATE]]"
+            + "[" + PREFIX_RECURRING + "[END_DATE]] "
             + "[" + PREFIX_DATE + "DATE] "
             + "[" + PREFIX_TIME + "HHmm-HHmm] "
             + "[" + PREFIX_SUBJECT + "SUBJECT] "
@@ -68,7 +68,7 @@ public class LessonEditCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the lesson identified by lesson index"
             + " of the student identified by the index number used in the displayed student list.\n"
-            + "Note that you cannot change the type of lesson."
+            + "Note that you cannot change the type of lesson.\n"
             + "Besides cancelled lessons, existing values of other fields will be overwritten by the input values.\n"
             + "Parameters: " + COMMAND_PARAMETERS + "\n"
             + "Example: " + COMMAND_EXAMPLE;
