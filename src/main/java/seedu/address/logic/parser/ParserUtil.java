@@ -37,7 +37,7 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer. Valid values range "
+    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer. Valid integers range "
             + "from 1 to MAX_INT (2147483627).";
     public static final String MESSAGE_INSUFFICIENT_INDICES = "Specify a valid index for both the student and lesson.";
 
