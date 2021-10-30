@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_CHECK_INPUT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CANCEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
@@ -38,16 +39,18 @@ public class LessonEditCommandParser implements Parser<LessonEditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_RECURRING, PREFIX_DATE, PREFIX_TIME,
-                    PREFIX_SUBJECT, PREFIX_HOMEWORK, PREFIX_RATES, PREFIX_OUTSTANDING_FEES,
-                    PREFIX_CANCEL, PREFIX_UNCANCEL);
+                        PREFIX_SUBJECT, PREFIX_HOMEWORK, PREFIX_RATES, PREFIX_OUTSTANDING_FEES,
+                        PREFIX_CANCEL, PREFIX_UNCANCEL);
 
         Index[] indices;
 
         try {
             indices = ParserUtil.parseIndices(argMultimap.getPreamble());
         } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    LessonEditCommand.MESSAGE_USAGE), pe);
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            String.format(MESSAGE_CHECK_INPUT, pe.getMessage()) + "\n"
+                                    + LessonEditCommand.MESSAGE_USAGE), pe);
         }
 
         assert indices.length == 2;

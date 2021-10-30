@@ -239,7 +239,6 @@ public abstract class Lesson implements Comparable<Lesson> {
                    .append(getEndDate());
         }
 
-
         builder.append("; Date: ")
                 .append(getDisplayDate())
                 .append("; Time: ")
