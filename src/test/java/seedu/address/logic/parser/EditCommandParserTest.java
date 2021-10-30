@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_CHECK_INPUT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ACAD_LEVEL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ACAD_STREAM_DESC_AMY;
@@ -63,8 +64,9 @@ public class EditCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
 
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+        String.format(MESSAGE_CHECK_INPUT, ParserUtil.MESSAGE_INVALID_INDEX)
+            + "\n" + EditCommand.MESSAGE_USAGE);
 
     private EditCommandParser parser = new EditCommandParser();
 

@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_CHECK_INPUT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.CANCEL_DATE_DESC_MON;
 import static seedu.address.logic.commands.CommandTestUtil.CANCEL_DATE_DESC_NEXT_MON;
@@ -56,19 +57,25 @@ class LessonEditCommandParserTest {
 
     private static final String HOMEWORK_EMPTY = " " + PREFIX_HOMEWORK;
     private static final String MESSAGE_INVALID_FORMAT =
-        String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonEditCommand.MESSAGE_USAGE);
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    String.format(MESSAGE_CHECK_INPUT, ParserUtil.MESSAGE_INVALID_INDEX)
+                            + "\n" + LessonEditCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INSUFFICIENT_INDICES =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    String.format(MESSAGE_CHECK_INPUT, ParserUtil.MESSAGE_INSUFFICIENT_INDICES)
+                            + "\n" + LessonEditCommand.MESSAGE_USAGE);
     private final LessonEditCommandParser parser = new LessonEditCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, TIME_RANGE_DESC, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, TIME_RANGE_DESC, MESSAGE_INSUFFICIENT_INDICES);
 
         // no field specified
         assertParseFailure(parser, "1 1", LessonEditCommand.MESSAGE_NOT_EDITED);
 
         // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "", MESSAGE_INSUFFICIENT_INDICES);
 
         assertParseFailure(parser, "1 1 " + PREFIX_DATE, Date.MESSAGE_CONSTRAINTS);
     }

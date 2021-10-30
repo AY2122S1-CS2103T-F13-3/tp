@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_CHECK_INPUT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -12,6 +13,12 @@ import seedu.address.logic.commands.LessonDeleteCommand;
 
 class LessonDeleteCommandParserTest {
 
+    private static final String MESSAGE_INVALID_COMMAND = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            String.format(MESSAGE_CHECK_INPUT, ParserUtil.MESSAGE_INVALID_INDEX)
+                   + "\n" + LessonDeleteCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INSUFFICIENT_INDICES = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            String.format(MESSAGE_CHECK_INPUT, ParserUtil.MESSAGE_INSUFFICIENT_INDICES)
+                  + "\n" + LessonDeleteCommand.MESSAGE_USAGE);
     private LessonDeleteCommandParser parser = new LessonDeleteCommandParser();
 
     @Test
@@ -22,37 +29,31 @@ class LessonDeleteCommandParserTest {
 
     @Test
     public void parse_emptyString_throwsParseException() {
-        assertParseFailure(parser, "",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "", MESSAGE_INSUFFICIENT_INDICES);
     }
 
     @Test
     public void parse_negativeArgs_throwsParseException() {
-        assertParseFailure(parser, "-2 1",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "-2 1", MESSAGE_INVALID_COMMAND);
     }
 
     @Test
     public void parse_singleArg_throwsParseException() {
-        assertParseFailure(parser, "2 ",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "2 ", MESSAGE_INSUFFICIENT_INDICES);
     }
 
     @Test
     public void parse_aboveTwoIndicesParseException() {
-        assertParseFailure(parser, "1 2 3 4 5",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1 2 3 4 5", MESSAGE_INVALID_COMMAND);
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "a 1",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a 1", MESSAGE_INVALID_COMMAND);
     }
 
     @Test
     public void parse_invalidArgs2_throwsParseException() {
-        assertParseFailure(parser, "a abdag",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a abdag", MESSAGE_INVALID_COMMAND);
     }
 }
