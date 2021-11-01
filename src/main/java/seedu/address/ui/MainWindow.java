@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -49,6 +49,8 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
+    private PersonListPanel personListPanel;
+    private TagListPanel tagListPanel;
     private CenterPanel centerPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
@@ -71,6 +73,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private MenuItem tagsMenuItem;
+
+    @FXML
+    private StackPane personListPanelPlaceholder;
 
     @FXML
     private StackPane centerPanelPlaceholder;
@@ -105,10 +110,10 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void setAccelerators() {
-        setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-        setAccelerator(studentsMenuItem, KeyCombination.valueOf("F2"));
-        setAccelerator(calendarMenuItem, KeyCombination.valueOf("F3"));
-        setAccelerator(tagsMenuItem, KeyCombination.valueOf("F4"));
+        setAccelerator(studentsMenuItem, KeyCombination.valueOf("F1"));
+        setAccelerator(calendarMenuItem, KeyCombination.valueOf("F2"));
+        setAccelerator(tagsMenuItem, KeyCombination.valueOf("F3"));
+        setAccelerator(helpMenuItem, KeyCombination.valueOf("F4"));
         setAccelerator(remindMenuItem, KeyCombination.valueOf("F5"));
     }
 
@@ -130,14 +135,12 @@ public class MainWindow extends UiPart<Stage> {
          * not work when the focus is in them because the key event is consumed by
          * the TextInputControl(s).
          *
-         * ListViews will also consume F2 function key events.
-         *
-         * For now, we add following event filter to capture such key events
-         * purposely so to support accelerators even when focus is
-         * in CommandBox, ResultDisplay, or CenterPanel.
+         * For now, we add following event filter to capture such key events and open
+         * help window purposely so to support accelerators even when focus is
+         * in CommandBox or ResultDisplay.
          */
         getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (keyCombination.match(event)) {
+            if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
                 menuItem.getOnAction().handle(new ActionEvent());
                 event.consume();
             }
@@ -166,59 +169,9 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        initListeners();
-
-        initKeyPressEventHandler(commandBox);
-    }
-
-    private void initKeyPressEventHandler(CommandBox commandBox) {
-        // Add event handlers
-        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (commandBox.getCommandTextField().isFocused()) {
-                return; // Don't filter if already in focus
-            }
-            if (isTextInputKeyCode(event.getCode())) {
-                commandBox.getCommandTextField().requestFocus();
-                commandBox.getCommandTextField().selectEnd();
-            }
-        });
-    }
-
-    /**
-     * Determines if keycode is a punctuation key base on optionally fixed virtual key codes
-     *
-     * @param keyCode The {@code KeyCode} to check
-     * @return True if it's a punctuation
-     */
-    private boolean isPunctuationKey(KeyCode keyCode) {
-        KeyCode[] punctuationKeyCodes = {
-            KeyCode.SPACE, KeyCode.BACK_SPACE,
-            KeyCode.BACK_QUOTE, KeyCode.MINUS, KeyCode.EQUALS, KeyCode.SLASH, // first row
-            KeyCode.OPEN_BRACKET, KeyCode.CLOSE_BRACKET, KeyCode.BACK_SLASH, // second row
-            KeyCode.SEMICOLON, KeyCode.QUOTE, KeyCode.COMMA, KeyCode.PERIOD, KeyCode.SLASH, // third row
-            KeyCode.DIVIDE, KeyCode.MULTIPLY, KeyCode.SUBTRACT, KeyCode.ADD, KeyCode.DECIMAL // Num pad Keys
-        };
-        for (KeyCode code : punctuationKeyCodes) {
-            if (code.equals(keyCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isTextInputKeyCode(KeyCode keyCode) {
-        return keyCode.isLetterKey() || keyCode.isDigitKey()
-                || isPunctuationKey(keyCode);
-    }
-
-    private void initListeners() {
         // Add listeners
         centerPanel.getPersonListView().getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldVal, newVal) -> {
-                    if (newVal != null) {
-                        handlePersonGridPanel(newVal);
-                    }
-                });
+                .addListener((obs, oldVal, newVal) -> handlePersonGridPanel(newVal));
     }
 
     /**
@@ -250,7 +203,6 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleReminder() {
-        logic.updateUpcomingLessons();
         if (!reminderWindow.isShowing()) {
             reminderWindow.show();
         } else {

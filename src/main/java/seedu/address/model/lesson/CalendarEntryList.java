@@ -10,7 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.calendarfx.model.Calendar;
@@ -36,16 +35,11 @@ import seedu.address.model.person.exceptions.LessonNotFoundException;
  * @see Lesson#isClashing(Lesson)
  */
 public class CalendarEntryList {
-    // two day time difference in minutes
-    private static final long TWO_DAY_DIFF = 2880;
+    private static final long TWO_DAY_DIFF = 48;
 
     private final Calendar calendar = new Calendar();
     private final List<Entry<Lesson>> entryList = new ArrayList<>();
     private final ObservableList<Entry<Lesson>> upcomingLessons = FXCollections.observableArrayList();
-
-    public CalendarEntryList() {
-        calendar.setStyle(Calendar.Style.STYLE3);
-    }
 
     public Calendar getCalendar() {
         return calendar;
@@ -54,18 +48,8 @@ public class CalendarEntryList {
     private void add(Entry<Lesson> calendarEntry) {
         calendar.addEntry(calendarEntry);
         entryList.add(calendarEntry);
-        addUpcomingLesson(calendarEntry);
-    }
-
-    /**
-     * Adds calendar entry to the list of upcoming lessons if the lesson for the specified calendar entry
-     * is upcoming within the next two days.
-     *
-     * @param calendarEntry Calendar Entry of lesson to be checked and added if it is upcoming.
-     */
-    private void addUpcomingLesson(Entry<Lesson> calendarEntry) {
         Lesson lesson = calendarEntry.getUserObject();
-        if (isUpcoming(lesson)
+        if (isUpcoming(lesson.getDisplayEndLocalDateTime())
                 && upcomingLessons.stream().noneMatch(entry -> entry.getUserObject().equals(lesson))) {
             upcomingLessons.add(calendarEntry);
             sortUpcomingLessons();
@@ -140,35 +124,6 @@ public class CalendarEntryList {
             }
         }
         return false;
-    }
-
-    /**
-     * Returns {@code Set<Lesson>} of existing lessons in the address book that are clashing with the lesson.
-     *
-     * @param toCheck The lesson to check.
-     * @param toIgnore The lesson to ignore.
-     * @return The set of lessons that are clashing with toCheck.
-     */
-    public Set<String> getClashes(Lesson toCheck, Lesson toIgnore) {
-        requireAllNonNull(toCheck, toIgnore);
-        return entryList.stream()
-                .filter(entry-> !entry.getUserObject().equals(toIgnore) && entry.getUserObject().isClashing(toCheck))
-                .map(entry -> entry.getTitle() + " " + entry.getUserObject().getLessonDetails())
-                .collect(Collectors.toSet());
-    }
-
-    /**
-     * Returns {@code Set<Lesson>} of existing lessons in the address book that are clashing with the lesson.
-     *
-     * @param toCheck The lesson to check.
-     * @return The set of lessons that are clashing with toCheck.
-     */
-    public Set<String> getClashes(Lesson toCheck) {
-        requireAllNonNull(toCheck);
-        return entryList.stream()
-                .filter(entry -> entry.getUserObject().isClashing(toCheck))
-                .map(entry -> entry.getTitle() + " " + entry.getUserObject().getLessonDetails())
-                .collect(Collectors.toSet());
     }
 
     /**
@@ -283,15 +238,14 @@ public class CalendarEntryList {
     }
 
     /**
-     * Returns true if the lesson start or end time is within two days of current date time.
+     * Returns true if the given date and time is within two days of current date time.
      *
-     * @param lesson Lesson to be checked.
-     * @return True if the lesson start or end time is within two days of current date time.
+     * @param endDateTime Date and time to be checked.
+     * @return True if the given date and time is within two days of current date time.
      */
-    private boolean isUpcoming(Lesson lesson) {
-        long endTimeDiff = ChronoUnit.MINUTES.between(LocalDateTime.now(), lesson.getDisplayEndLocalDateTime());
-        long startTimeDiff = ChronoUnit.MINUTES.between(LocalDateTime.now(), lesson.getDisplayStartLocalDateTime());
-        return endTimeDiff >= 0 && (startTimeDiff < TWO_DAY_DIFF || endTimeDiff < TWO_DAY_DIFF);
+    private boolean isUpcoming(LocalDateTime endDateTime) {
+        long timeDiff = ChronoUnit.HOURS.between(LocalDateTime.now(), endDateTime);
+        return timeDiff >= 0 && timeDiff < TWO_DAY_DIFF;
     }
 
     /**
@@ -302,20 +256,6 @@ public class CalendarEntryList {
                 .sorted(Comparator.comparing(e -> e.getUserObject().getDisplayEndLocalDateTime()))
                 .collect(Collectors.toList());
         upcomingLessons.setAll(sortedList);
-    }
-
-    /**
-     * Removes lesson entries with end date time that has passed the current time and add new upcoming lessons if any.
-     */
-    public void updateUpcomingLessons() {
-        for (Entry<Lesson> entry : entryList) {
-            Lesson lesson = entry.getUserObject();
-            if (upcomingLessons.contains(entry)
-                    && !isUpcoming(lesson)) {
-                upcomingLessons.remove(entry);
-            }
-            addUpcomingLesson(entry);
-        }
     }
 
     /**
@@ -346,7 +286,7 @@ public class CalendarEntryList {
             interval = interval.withDates(startDate, startDate);
 
         }
-        entryList.add(convertToRecurringEntryWithEnd(owner, lesson, interval, lesson.getEndDate().getLocalDate()));
+        entryList.add(convertToRecurringEntry(owner, lesson, interval));
 
         return entryList;
     }

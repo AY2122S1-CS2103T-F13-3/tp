@@ -2,7 +2,6 @@ package seedu.address.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import com.calendarfx.model.Calendar;
@@ -18,7 +17,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.LastUpdatedDate;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.lesson.Lesson;
@@ -37,22 +35,12 @@ public class LogicManager implements Logic {
     private final Storage storage;
     private final UndoRedoStack undoRedoStack;
     private final AddressBookParser addressBookParser;
-    private final Calculator feesCalculator;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
     public LogicManager(Model model, Storage storage) {
-        feesCalculator = new FeesCalculator(model.getLastUpdatedDate(), LocalDateTime.now());
-        this.model = feesCalculator.updateAllLessonOutstandingFees(model);
-
-        // After model is updated. Save model to storage.
-        try {
-            storage.saveAddressBook(model.getAddressBook());
-        } catch (IOException io) {
-            logger.warning("SYSTEM WILL NOT SAVE LAST UPDATED DATE. PLEASE RESTART THE APPLICATION.");
-        }
-
+        this.model = model;
         this.storage = storage;
         undoRedoStack = new UndoRedoStack();
         addressBookParser = new AddressBookParser();
@@ -76,7 +64,6 @@ public class LogicManager implements Logic {
 
         return commandResult;
     }
-
 
     @Override
     public ReadOnlyAddressBook getAddressBook() {
@@ -121,12 +108,6 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public void updateUpcomingLessons() {
-        logger.info("Update upcoming lessons");
-        model.updateUpcomingLessons();
-    }
-
-    @Override
     public Path getAddressBookFilePath() {
         return model.getAddressBookFilePath();
     }
@@ -139,10 +120,5 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
-    }
-
-    @Override
-    public LastUpdatedDate getLastUpdatedDate() {
-        return model.getLastUpdatedDate();
     }
 }

@@ -18,17 +18,17 @@ public class Subject {
      */
     public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
 
-    public final String value;
+    public final String subject;
 
     /**
      * Constructs a {@code Subject}.
      *
-     * @param value A valid subject.
+     * @param subject A valid subject.
      */
-    public Subject(String value) {
-        requireNonNull(value);
-        checkArgument(isValidSubject(value), MESSAGE_CONSTRAINTS);
-        this.value = value;
+    public Subject(String subject) {
+        requireNonNull(subject);
+        checkArgument(isValidSubject(subject), MESSAGE_CONSTRAINTS);
+        this.subject = subject;
     }
 
     /**
@@ -43,19 +43,19 @@ public class Subject {
 
     @Override
     public String toString() {
-        return value;
+        return subject;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Subject // instanceof handles nulls
-                && value.equals(((Subject) other).value)); // state check
+                && subject.equals(((Subject) other).subject)); // state check
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return subject.hashCode();
     }
 
 }

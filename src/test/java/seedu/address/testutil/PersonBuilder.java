@@ -9,6 +9,7 @@ import seedu.address.model.person.AcadLevel;
 import seedu.address.model.person.AcadStream;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Fee;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -43,6 +44,7 @@ public class PersonBuilder {
     private School school;
     private AcadStream acadStream;
     private AcadLevel acadLevel;
+    private Fee fee;
     private Remark remark;
     private Set<Tag> tags;
     private Set<Lesson> lessons;
@@ -60,6 +62,7 @@ public class PersonBuilder {
         school = new School(DEFAULT_SCHOOL);
         acadStream = new AcadStream(DEFAULT_ACAD_STREAM);
         acadLevel = new AcadLevel(DEFAULT_ACAD_LEVEL);
+        fee = new Fee(DEFAULT_FEE);
         remark = new Remark(DEFAULT_REMARK);
         tags = new HashSet<>();
         lessons = new TreeSet<>();
@@ -78,6 +81,7 @@ public class PersonBuilder {
         school = personToCopy.getSchool();
         acadStream = personToCopy.getAcadStream();
         acadLevel = personToCopy.getAcadLevel();
+        fee = personToCopy.getFee();
         remark = personToCopy.getRemark();
         tags = new HashSet<>(personToCopy.getTags());
         lessons = new TreeSet<>(personToCopy.getLessons());
@@ -196,6 +200,22 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Fee} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withFee(String fee) {
+        this.fee = new Fee(fee);
+        return this;
+    }
+
+    /**
+     * Sets the default {@code Fee} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withFee() {
+        this.fee = new Fee(DEFAULT_FEE);
+        return this;
+    }
+
+    /**
      * Sets the {@code Remark} of the {@code Person} that we are building.
      */
     public PersonBuilder withRemark(String remark) {
@@ -234,6 +254,6 @@ public class PersonBuilder {
      */
     public Person build() {
         return new Person(name, phone, email, parentPhone, parentEmail,
-            address, school, acadStream, acadLevel, remark, tags, lessons);
+            address, school, acadStream, acadLevel, fee, remark, tags, lessons);
     }
 }

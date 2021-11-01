@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.FindCommand.FindCondition;
-import seedu.address.model.lesson.Date;
-import seedu.address.model.lesson.Lesson;
-import seedu.address.model.lesson.TimeRange;
 
 /**
  * Tests that a {@code Person}'s fields matches the keywords given.
@@ -28,16 +25,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     private List<String> schoolKeywords;
     private List<String> acadStreamKeywords;
     private List<String> acadLevelKeywords;
-    private List<String> remarkKeywords;
     private List<String> tagKeywords;
-
-    // Lesson Keywords
-    private Date date;
-    private Date cancelledDate;
-    private TimeRange timeRange;
-    private List<String> subjectKeywords;
-    private List<String> ratesKeywords;
-    private List<String> homeworkKeywords;
 
     private FindCondition condition = FindCondition.ALL; // default find condition is match all
 
@@ -49,9 +37,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     public boolean isAnyFieldSearched() {
         return CollectionUtil.isAnyNonNull(nameKeywords, phoneKeywords, emailKeywords,
                 parentPhoneKeywords, parentEmailKeywords, addressKeywords,
-                schoolKeywords, acadStreamKeywords, acadLevelKeywords, remarkKeywords,
-                timeRange, date, cancelledDate, subjectKeywords, ratesKeywords, homeworkKeywords,
-                tagKeywords);
+                schoolKeywords, acadStreamKeywords, acadLevelKeywords, tagKeywords);
     }
 
     /**
@@ -83,7 +69,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Name keywords to find.
      */
     public void setNameKeywords(List<String> keywords) {
-        nameKeywords = keywords;
+        this.nameKeywords = keywords;
     }
 
     /**
@@ -99,7 +85,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Phone keywords to find.
      */
     public void setPhoneKeywords(List<String> keywords) {
-        phoneKeywords = keywords;
+        this.phoneKeywords = keywords;
     }
 
     /**
@@ -115,7 +101,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Email keywords to find.
      */
     public void setEmailKeywords(List<String> keywords) {
-        emailKeywords = keywords;
+        this.emailKeywords = keywords;
     }
 
     /**
@@ -131,7 +117,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Parent phone keywords to find.
      */
     public void setParentPhoneKeywords(List<String> keywords) {
-        parentPhoneKeywords = keywords;
+        this.parentPhoneKeywords = keywords;
     }
 
     /**
@@ -147,7 +133,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Parent email keywords to find.
      */
     public void setParentEmailKeywords(List<String> keywords) {
-        parentEmailKeywords = keywords;
+        this.parentEmailKeywords = keywords;
     }
 
     /**
@@ -163,7 +149,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Address keywords to find.
      */
     public void setAddressKeywords(List<String> keywords) {
-        addressKeywords = keywords;
+        this.addressKeywords = keywords;
     }
 
     /**
@@ -179,7 +165,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords School keywords to find.
      */
     public void setSchoolKeywords(List<String> keywords) {
-        schoolKeywords = keywords;
+        this.schoolKeywords = keywords;
     }
 
     /**
@@ -195,7 +181,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Academic stream keywords to find.
      */
     public void setAcadStreamKeywords(List<String> keywords) {
-        acadStreamKeywords = keywords;
+        this.acadStreamKeywords = keywords;
     }
 
     /**
@@ -211,119 +197,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
      * @param keywords Academic level keywords to find.
      */
     public void setAcadLevelKeywords(List<String> keywords) {
-        acadLevelKeywords = keywords;
-    }
-
-    /**
-     * Returns optional remark level keywords.
-     */
-    public Optional<List<String>> getRemarkKeywords() {
-        return Optional.ofNullable(remarkKeywords);
-    }
-
-    /**
-     * Sets keywords to match with a Person's remarks.
-     *
-     * @param keywords Remark keywords to find.
-     */
-    public void setRemarkKeywords(List<String> keywords) {
-        this.remarkKeywords = keywords;
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's time range.
-     *
-     * @param timeRange TimeRange to find.
-     */
-    public void setTimeRange(TimeRange timeRange) {
-        this.timeRange = timeRange;
-    }
-
-    /**
-     * Returns optional time range.
-     */
-    public Optional<TimeRange> getTimeRange() {
-        return Optional.ofNullable(timeRange);
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's date.
-     *
-     * @param date Valid date to find.
-     */
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    /**
-     * Returns optional date.
-     */
-    public Optional<Date> getDate() {
-        return Optional.ofNullable(date);
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's cancelled date.
-     *
-     * @param cancelledDate Valid cancelled date to find.
-     */
-    public void setCancelledDate(Date cancelledDate) {
-        this.cancelledDate = cancelledDate;
-    }
-
-    /**
-     * Returns optional cancelledDate.
-     */
-    public Optional<Date> getCancelledDate() {
-        return Optional.ofNullable(cancelledDate);
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's subject.
-     *
-     * @param keywords Subject keywords to find.
-     */
-    public void setSubjectKeywords(List<String> keywords) {
-        subjectKeywords = keywords;
-    }
-
-    /**
-     * Returns optional subject keywords.
-     */
-    public Optional<List<String>> getSubjectKeywords() {
-        return Optional.ofNullable(subjectKeywords);
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's rates.
-     *
-     * @param keywords Rate keywords to find.
-     */
-    public void setRatesKeywords(List<String> keywords) {
-        ratesKeywords = keywords;
-    }
-
-    /**
-     * Returns optional rate keywords.
-     */
-    public Optional<List<String>> getRateKeywords() {
-        return Optional.ofNullable(ratesKeywords);
-    }
-
-    /**
-     * Sets keywords to match with a Person's Lesson's homework.
-     *
-     * @param keywords homework keywords to find.
-     */
-    public void setHomeworkKeywords(List<String> keywords) {
-        homeworkKeywords = keywords;
-    }
-
-    /**
-     * Returns optional homework keywords.
-     */
-    public Optional<List<String>> getHomeworkKeywords() {
-        return Optional.ofNullable(homeworkKeywords);
+        this.acadLevelKeywords = keywords;
     }
 
     /**
@@ -355,7 +229,6 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
         return keywords.stream().allMatch(keyword -> StringUtil.containsSubstringIgnoreCase(field, keyword));
     }
 
-    // Person Predicates -----------------------------------------------------------------------------------------------
     /**
      * Returns a {@code Predicate} that tests that a {@code Person}'s {@code Name} matches the keywords given.
      *
@@ -438,53 +311,12 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     }
 
     /**
-     * Returns a {@code Predicate} that tests that a {@code Person}'s {@code Remark} matches the keywords given.
-     *
-     * @return A predicate that tests a person's remarks.
-     */
-    private Predicate<Person> getRemarkMatchPredicate() {
-        return person -> isMatch(remarkKeywords, person.getRemark().value);
-    }
-
-
-    // Person Lesson predicates ----------------------------------------------------------------------------------------
-
-    private Predicate<Person> getTimeRangeMatchPredicate() {
-        return getLessonAnyMatch(lesson -> timeRange.isClashing(lesson.getTimeRange()));
-    }
-
-    private Predicate<Person> getDateMatchPredicate() {
-        return getLessonAnyMatch(lesson -> lesson.hasLessonOnDate(date));
-    }
-
-    private Predicate<Person> getCancelledDateMatchPredicate() {
-        return getLessonAnyMatch(lesson -> lesson.getCancelledDates().contains(cancelledDate));
-    }
-
-    private Predicate<Person> getSubjectMatchPredicate() {
-        return getLessonAnyMatch(lesson -> isMatch(subjectKeywords, lesson.getSubject().value));
-    }
-
-    private Predicate<Person> getRatesMatchPredicate() {
-        return getLessonAnyMatch(lesson -> isMatch(ratesKeywords, lesson.getLessonRates().value));
-    }
-
-    private Predicate<Person> getHomeworkMatchPredicate() {
-        return getLessonAnyMatch(lesson -> lesson.getHomework().stream()
-                .anyMatch(homework -> isMatch(homeworkKeywords, homework.description)));
-    }
-
-    private Predicate<Person> getLessonAnyMatch(Predicate<Lesson> predicate) {
-        return person -> person.getLessons().stream().anyMatch(predicate);
-    }
-
-    /**
      * Returns a {@code List<Predicate<Person>>} that tests if each keyword matches a {@code Person}'s {@code Tag}s.
      *
      * @return A predicate that tests a person's tags.
      */
     private List<Predicate<Person>> getTagsMatchPredicates() {
-        return tagKeywords.stream().map(this::getTagMatchPredicate).collect(Collectors.toList());
+        return tagKeywords.stream().map(keyword -> getTagMatchPredicate(keyword)).collect(Collectors.toList());
     }
 
     /**
@@ -498,7 +330,7 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     }
 
     /**
-     * Returns a list of predicates that test a person's fields against non-null keywords/fields.
+     * Returns a list of predicates that test a person's fields against non-null keywords.
      *
      * @return A list of person predicates.
      */
@@ -531,38 +363,15 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
         if (getAcadLevelKeywords().isPresent()) {
             predicates.add(getAcadLevelMatchPredicate());
         }
-        if (getRemarkKeywords().isPresent()) {
-            predicates.add(getRemarkMatchPredicate());
-        }
         if (getTagKeywords().isPresent()) {
             predicates.addAll(getTagsMatchPredicates());
-        }
-
-        // Lesson predicates
-        if (getTimeRange().isPresent()) {
-            predicates.add(getTimeRangeMatchPredicate());
-        }
-        if (getDate().isPresent()) {
-            predicates.add(getDateMatchPredicate());
-        }
-        if (getCancelledDate().isPresent()) {
-            predicates.add(getCancelledDateMatchPredicate());
-        }
-        if (getSubjectKeywords().isPresent()) {
-            predicates.add(getSubjectMatchPredicate());
-        }
-        if (getRateKeywords().isPresent()) {
-            predicates.add(getRatesMatchPredicate());
-        }
-        if (getHomeworkKeywords().isPresent()) {
-            predicates.add(getHomeworkMatchPredicate());
         }
 
         return predicates;
     }
 
     /**
-     * Returns a composed predicate that represents matching all the given predicates.
+     * Returns a composed predicate that represents matching all of the given predicates.
      *
      * @param predicates A list of predicates to match.
      * @return A predicate that returns true only if all predicates test true on a person.
@@ -636,13 +445,6 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
                 && getSchoolKeywords().equals(p.getSchoolKeywords())
                 && getAcadStreamKeywords().equals(p.getAcadStreamKeywords())
                 && getAcadLevelKeywords().equals(p.getAcadLevelKeywords())
-                && getRemarkKeywords().equals(p.getRemarkKeywords())
-                && getTimeRange().equals(p.getTimeRange())
-                && getDate().equals(p.getDate())
-                && getCancelledDate().equals(p.getCancelledDate())
-                && getSubjectKeywords().equals(p.getSubjectKeywords())
-                && getRateKeywords().equals(p.getRateKeywords())
-                && getHomeworkKeywords().equals(p.getHomeworkKeywords())
                 && getCondition().equals(p.getCondition());
     }
 
@@ -679,30 +481,10 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
         if (getAcadLevelKeywords().isPresent()) {
             builder.append("\nAcademic Level: ").append(String.join(" ", getAcadLevelKeywords().get()));
         }
-        if (getRemarkKeywords().isPresent()) {
-            builder.append("\nRemark: ").append(String.join(" ", getRemarkKeywords().get()));
-        }
         if (getTagKeywords().isPresent()) {
             builder.append("\nTags: ").append(String.join("; ", getTagKeywords().get()));
         }
-        if (getSubjectKeywords().isPresent()) {
-            builder.append("\nLesson Subject: ").append(String.join("; ", getSubjectKeywords().get()));
-        }
-        if (getDate().isPresent()) {
-            builder.append("\nLesson Date: ").append(String.join("; ", getDate().get().toString()));
-        }
-        if (getCancelledDate().isPresent()) {
-            builder.append("\nCancelled Date: ").append(String.join("; ", getCancelledDate().get().toString()));
-        }
-        if (getTimeRange().isPresent()) {
-            builder.append("\nLesson Time: ").append(String.join("; ", getTimeRange().get().toString()));
-        }
-        if (getRateKeywords().isPresent()) {
-            builder.append("\nLesson Rates: ").append(String.join("; ", getRateKeywords().get()));
-        }
-        if (getHomeworkKeywords().isPresent()) {
-            builder.append("\nLesson Homework: ").append(String.join("; ", getHomeworkKeywords().get()));
-        }
+
         return builder.toString();
     }
 

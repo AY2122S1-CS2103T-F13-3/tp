@@ -4,9 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CANCEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_HOMEWORK;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_OUTSTANDING_FEES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATES;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_RECURRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNCANCEL;
@@ -29,7 +27,6 @@ import seedu.address.model.lesson.Homework;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.LessonRates;
 import seedu.address.model.lesson.MakeUpLesson;
-import seedu.address.model.lesson.OutstandingFees;
 import seedu.address.model.lesson.RecurringLesson;
 import seedu.address.model.lesson.Subject;
 import seedu.address.model.lesson.TimeRange;
@@ -45,14 +42,12 @@ public class LessonEditCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "ledit";
 
-    public static final String COMMAND_PARAMETERS = "INDEX "
-            + "LESSON_INDEX "
-            + "[" + PREFIX_RECURRING + "[END_DATE]]"
+    public static final String COMMAND_PARAMETERS = "INDEX (must be a positive integer) "
+            + "LESSON_INDEX (must be a positive integer)\n"
             + "[" + PREFIX_DATE + "DATE] "
             + "[" + PREFIX_TIME + "HHmm-HHmm] "
             + "[" + PREFIX_SUBJECT + "SUBJECT] "
             + "[" + PREFIX_RATES + "RATE] "
-            + "[" + PREFIX_OUTSTANDING_FEES + "OUTSTANDING FEES]"
             + "[" + PREFIX_HOMEWORK + "HOMEWORK]... "
             + "[" + PREFIX_CANCEL + "CANCEL_DATE]... "
             + "[" + PREFIX_UNCANCEL + "UNCANCEL_DATE]...";
@@ -68,7 +63,6 @@ public class LessonEditCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the lesson identified by lesson index"
             + " of the student identified by the index number used in the displayed student list.\n"
-            + "Note that you cannot change the type of lesson.\n"
             + "Besides cancelled lessons, existing values of other fields will be overwritten by the input values.\n"
             + "Parameters: " + COMMAND_PARAMETERS + "\n"
             + "Example: " + COMMAND_EXAMPLE;
@@ -78,9 +72,6 @@ public class LessonEditCommand extends UndoableCommand {
     public static final String MESSAGE_NOT_EDITED = "You must be provide at least one field to edit!";
     public static final String MESSAGE_ATTEMPT_TO_EDIT_TYPE =
             "You cannot edit the type of a lesson. Please add another" + " lesson if you wish to do so.";
-    public static final String MESSAGE_INVALID_DATE_RANGE = "The end date cannot be earlier than the start date. Please"
-            + " edit the start date with " + PREFIX_DATE + "DATE and the end date with " + PREFIX_RECURRING + "END_DATE"
-            + " if you wish to proceed.";
 
     public static final String MESSAGE_INVALID_CANCEL_DATE =
             "Failed to cancel lesson! This lesson does not occur on %1$s.";
@@ -120,11 +111,6 @@ public class LessonEditCommand extends UndoableCommand {
         Lesson lessonToEdit = CommandUtil.getLesson(lessonList, lessonIndex);
         Lesson editedLesson = createEditedLesson(lessonToEdit, editLessonDescriptor);
 
-        // Check if user attempted to edit type of lesson
-        if (editedLesson.isRecurring() != lessonToEdit.isRecurring()) {
-            throw new CommandException(MESSAGE_ATTEMPT_TO_EDIT_TYPE);
-        }
-
         Set<Lesson> updatedLessons = createUpdatedLessons(lessonList, editedLesson, lessonToEdit);
         personAfterLessonEdit = PersonUtil.createdEditedPerson(personBeforeLessonEdit, updatedLessons);
 
@@ -143,32 +129,20 @@ public class LessonEditCommand extends UndoableCommand {
             throws CommandException {
         assert lessonToEdit != null;
         Date updatedDate = editLessonDescriptor.getDate().orElse(lessonToEdit.getStartDate());
-        Date updatedEndDate = lessonToEdit.isRecurring()
-                ? editLessonDescriptor.getEndDate().orElse(lessonToEdit.getEndDate())
-                : updatedDate;
         TimeRange updatedTimeRange = editLessonDescriptor.getTimeRange().orElse(lessonToEdit.getTimeRange());
         Subject updatedSubject = editLessonDescriptor.getSubject().orElse(lessonToEdit.getSubject());
         Set<Homework> updatedHomeworkSet = editLessonDescriptor.getHomeworkSet().orElse(lessonToEdit.getHomework());
         LessonRates updatedRate = editLessonDescriptor.getRate().orElse(lessonToEdit.getLessonRates());
-
-        // error if end date is earlier than start date
-        if (updatedEndDate.isBefore(updatedDate)) {
-            throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
-        }
-
-        OutstandingFees updatedOutstandingFees = editLessonDescriptor.getOutstandingFees()
-                .orElse(lessonToEdit.getOutstandingFees());
-
         // filter out dates after start date
         Set<Date> filteredCancelledDates = lessonToEdit.getCancelledDates().stream()
-                .filter(date -> date.isOnRecurringDate(updatedDate, updatedEndDate)).collect(Collectors.toSet());
+                .filter(date -> date.isOnRecurringDate(updatedDate)).collect(Collectors.toSet());
 
         // lesson before handling cancel and uncancel of dates
-        Lesson lessonBeforeUpdateCancelledDates = editLessonDescriptor.getIsRecurring() || lessonToEdit.isRecurring()
-                ? new RecurringLesson(updatedDate, updatedEndDate, updatedTimeRange,
-                        updatedSubject, updatedHomeworkSet, updatedRate, updatedOutstandingFees, filteredCancelledDates)
+        Lesson lessonBeforeUpdateCancelledDates = lessonToEdit.isRecurring()
+                ? new RecurringLesson(updatedDate, updatedTimeRange, updatedSubject, updatedHomeworkSet, updatedRate,
+                        filteredCancelledDates)
                 : new MakeUpLesson(updatedDate, updatedTimeRange, updatedSubject, updatedHomeworkSet, updatedRate,
-                        updatedOutstandingFees, filteredCancelledDates);
+                        filteredCancelledDates);
 
         if (!editLessonDescriptor.isCancelledDatesEdited()) {
             return lessonBeforeUpdateCancelledDates;
@@ -257,9 +231,7 @@ public class LessonEditCommand extends UndoableCommand {
             throws CommandException {
         // Checks if the edited lesson clashes with any existing lessons apart from the one to be edited.
         if (model.hasClashingLesson(edited, toEdit)) {
-            Set<String> clashes = model.getClashingLessonsString(edited, toEdit);
-            String clashingLessons = CommandUtil.lessonsToString(clashes);
-            throw new CommandException(MESSAGE_CLASHING_LESSON + clashingLessons);
+            throw new CommandException(MESSAGE_CLASHING_LESSON);
         }
         lessonList.remove(toEdit);
         lessonList.add(edited);
@@ -313,16 +285,15 @@ public class LessonEditCommand extends UndoableCommand {
     public static class EditLessonDescriptor {
 
         private Date date;
-        private Date endDate;
         private TimeRange timeRange;
         private Subject subject;
         private Set<Homework> homeworkSet;
         private LessonRates rate;
-        private OutstandingFees outstandingFees;
         private Set<Date> cancelDates;
         private Set<Date> uncancelDates;
 
-        private boolean isRecurring;
+
+        // Absence of isRecurring boolean field as changes to type of lesson is disallowed.
 
         public EditLessonDescriptor() {}
 
@@ -331,14 +302,11 @@ public class LessonEditCommand extends UndoableCommand {
          * A defensive copy of {@code homeworkSet} is used internally.
          */
         public EditLessonDescriptor(EditLessonDescriptor toCopy) {
-            setRecurring(toCopy.isRecurring);
             setDate(toCopy.date);
-            setEndDate(toCopy.endDate);
             setTimeRange(toCopy.timeRange);
             setSubject(toCopy.subject);
             setHomeworkSet(toCopy.homeworkSet);
-            setLessonRate(toCopy.rate);
-            setOutstandingFees(toCopy.outstandingFees);
+            setRate(toCopy.rate);
             setCancelDates(toCopy.cancelDates);
             setUncancelDates(toCopy.uncancelDates);
         }
@@ -347,8 +315,8 @@ public class LessonEditCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return isRecurring || CollectionUtil.isAnyNonNull(date, timeRange, subject,
-                    homeworkSet, rate, outstandingFees, cancelDates, uncancelDates);
+            return CollectionUtil.isAnyNonNull(date, timeRange, subject, homeworkSet, rate, cancelDates,
+                    uncancelDates);
         }
 
         public boolean isCancelledDatesEdited() {
@@ -361,14 +329,6 @@ public class LessonEditCommand extends UndoableCommand {
 
         public void setDate(Date date) {
             this.date = date;
-        }
-
-        public Optional<Date> getEndDate() {
-            return Optional.ofNullable(endDate);
-        }
-
-        public void setEndDate(Date date) {
-            this.endDate = date;
         }
 
         public Optional<TimeRange> getTimeRange() {
@@ -410,24 +370,8 @@ public class LessonEditCommand extends UndoableCommand {
             return Optional.ofNullable(rate);
         }
 
-        public void setLessonRate(LessonRates rate) {
+        public void setRate(LessonRates rate) {
             this.rate = rate;
-        }
-
-        public boolean getIsRecurring() {
-            return isRecurring;
-        }
-
-        public void setRecurring(boolean bool) {
-            isRecurring = bool;
-        }
-
-        public Optional<OutstandingFees> getOutstandingFees() {
-            return Optional.ofNullable(outstandingFees);
-        }
-
-        public void setOutstandingFees(OutstandingFees outstandingFees) {
-            this.outstandingFees = outstandingFees;
         }
 
         public Optional<Set<Date>> getCancelDates() {
@@ -466,13 +410,10 @@ public class LessonEditCommand extends UndoableCommand {
             EditLessonDescriptor e = (EditLessonDescriptor) other;
 
             return getDate().equals(e.getDate())
-                    && getIsRecurring() == e.getIsRecurring()
-                    && getEndDate().equals(e.getEndDate())
                     && getTimeRange().equals(e.getTimeRange())
                     && getSubject().equals(e.getSubject())
                     && getHomeworkSet().equals(e.getHomeworkSet())
                     && getRate().equals(e.getRate())
-                    && getOutstandingFees().equals(e.getOutstandingFees())
                     && getUncancelDates().equals(e.getUncancelDates())
                     && getCancelDates().equals(e.getCancelDates());
         }

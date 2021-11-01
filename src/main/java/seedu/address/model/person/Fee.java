@@ -1,16 +1,11 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Calculator.getStudentTotalFees;
-
-import java.text.DecimalFormat;
-import java.util.Set;
-
-import seedu.address.model.lesson.Lesson;
+import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's outstanding fees in TAB.
- * Calculated by summing up all outstanding fees from lesson.
+ * Guarantees: immutable; is valid as declared in {@link #isValidFee(String)}
  */
 public class Fee {
 
@@ -21,33 +16,78 @@ public class Fee {
             + "2. Fees should not start or end with a decimal point and should have at most two decimal places.";
 
     public static final String VALIDATION_REGEX = "^[0-9]+(\\.[0-9]{1,2})?$";
-    private static final DecimalFormat df = new DecimalFormat("0.00");
-    private final float value;
+    public final String value;
 
     /**
      * Constructs an outstanding {@code Fee}.
      *
-     * @param lessons A set of lessons to calculate current outstanding fees.
+     * @param fee A valid outstanding fee.
      */
-    public Fee(Set<Lesson> lessons) {
-        requireNonNull(lessons);
-        value = getStudentTotalFees(lessons);
+    public Fee(String fee) {
+        requireNonNull(fee);
+        checkArgument(isValidFee(fee), MESSAGE_CONSTRAINTS);
+        value = formatFee(fee);
+    }
+
+    /**
+     * Removes leading zeroes and postfixes decimal places.
+     *
+     * @param fee A valid fee.
+     * @return The formatted fee.
+     */
+    private String formatFee(String fee) {
+        String formattedFee = fee;
+        if (formattedFee.startsWith("0")) { // remove all leading zeroes
+            formattedFee = formattedFee.replaceFirst("^0+", "");
+        }
+        if (formattedFee.startsWith(".")) { // prefix missing zero that was removed
+            formattedFee = "0" + formattedFee;
+        }
+        if (!formattedFee.isEmpty() && !formattedFee.contains(".")) { // postfix missing decimal places
+            formattedFee = formattedFee + ".00";
+        }
+        int length = fee.length();
+        if (length >= 2 && fee.charAt(length - 2) == '.') { // postfix missing zero
+            formattedFee = formattedFee + "0";
+        }
+        return fillEmptyString(formattedFee);
+    }
+
+    private String fillEmptyString(String fee) {
+        return fee.isEmpty() ? "0.00" : fee;
+    }
+
+    /**
+     * Returns true if fee value is empty.
+     *
+     * @return True if fee value is empty.
+     */
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
+
+    /**
+     * Returns true if a given string is a valid fee.
+     */
+    public static boolean isValidFee(String test) {
+        return test.isEmpty() || test.matches(VALIDATION_REGEX);
     }
 
     @Override
     public String toString() {
-        return "$" + df.format(value);
+        return value;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Fee // instanceof handles nulls
-                && value == ((Fee) other).value); // state check
+                && value.equals(((Fee) other).value)); // state check
     }
 
     @Override
     public int hashCode() {
-        return Float.hashCode(value);
+        return value.hashCode();
     }
 }

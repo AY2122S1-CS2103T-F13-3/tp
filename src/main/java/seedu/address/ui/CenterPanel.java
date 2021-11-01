@@ -25,9 +25,10 @@ public class CenterPanel extends UiPart<Region> {
     private static final String FXML = "CenterPanel.fxml";
     private static final Logger logger = LogsCenter.getLogger(CenterPanel.class);
 
-    // Independent Ui parts residing in this Ui container
     private SchedulePanel schedulePanel;
+
     private PersonGridPanel personGridPanel;
+
     private TagListPanel tagListPanel;
 
     @FXML
@@ -112,7 +113,6 @@ public class CenterPanel extends UiPart<Region> {
      * Bring PersonGridPanel to top of the stack's child list.
      */
     public void displayPersonGridPanel(ObservableList<Lesson> lessons) {
-        logger.info("Showing the student list without lessons.");
         personGridPanel.fillListPanels(lessons);
         personGridPanel.setListPanels();
         centerPanelPlaceholder.getChildren().setAll(personGridPanel.getRoot());
@@ -125,11 +125,9 @@ public class CenterPanel extends UiPart<Region> {
      * @param lessons Lessons of the student.
      */
     public void displayPersonGridPanel(Person student, ObservableList<Lesson> lessons) {
-        logger.info("Showing the student list with lessons.");
         personGridPanel.fillListPanels(student, lessons);
         personGridPanel.setListPanels();
         centerPanelPlaceholder.getChildren().setAll(personGridPanel.getRoot());
-        personGridPanel.getPersonListView().getSelectionModel().select(student);
     }
 
     /**

@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_STREAM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FEE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_PHONE;
@@ -30,6 +31,7 @@ import seedu.address.model.person.AcadLevel;
 import seedu.address.model.person.AcadStream;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Fee;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -46,7 +48,7 @@ public class EditCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String COMMAND_PARAMETERS = "INDEX "
+    public static final String COMMAND_PARAMETERS = "INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -56,6 +58,7 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_SCHOOL + "SCHOOL] "
             + "[" + PREFIX_ACAD_STREAM + "ACAD_STREAM] "
             + "[" + PREFIX_ACAD_LEVEL + "ACAD_LEVEL] "
+            + "[" + PREFIX_FEE + "FEE] "
             + "[" + PREFIX_REMARK + "REMARK] "
             + "[" + PREFIX_TAG + "TAG]...";
 
@@ -129,13 +132,14 @@ public class EditCommand extends UndoableCommand {
         School updatedSchool = editPersonDescriptor.getSchool().orElse(personToEdit.getSchool());
         AcadStream updatedAcadStream = editPersonDescriptor.getAcadStream().orElse(personToEdit.getAcadStream());
         AcadLevel updatedAcadLevel = editPersonDescriptor.getAcadLevel().orElse(personToEdit.getAcadLevel());
+        Fee updatedFee = editPersonDescriptor.getFee().orElse(personToEdit.getFee());
         Remark updatedRemark = editPersonDescriptor.getRemark().orElse(personToEdit.getRemark());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
         // This command does not allow the editing of lessons.
         Set<Lesson> updatedLessons = editPersonDescriptor.getLessons().orElse(personToEdit.getLessons());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedParentPhone, updatedParentEmail,
-                updatedAddress, updatedSchool, updatedAcadStream, updatedAcadLevel, updatedRemark,
+                updatedAddress, updatedSchool, updatedAcadStream, updatedAcadLevel, updatedFee, updatedRemark,
                 updatedTags, updatedLessons);
     }
 
@@ -189,6 +193,7 @@ public class EditCommand extends UndoableCommand {
         private School school;
         private AcadStream acadStream;
         private AcadLevel acadLevel;
+        private Fee outstandingFee;
         private Remark remark;
         private Set<Tag> tags;
         private Set<Lesson> lessons;
@@ -209,6 +214,7 @@ public class EditCommand extends UndoableCommand {
             setSchool(toCopy.school);
             setAcadStream(toCopy.acadStream);
             setAcadLevel(toCopy.acadLevel);
+            setFee(toCopy.outstandingFee);
             setRemark(toCopy.remark);
             setTags(toCopy.tags);
             setLessons(toCopy.lessons);
@@ -219,7 +225,7 @@ public class EditCommand extends UndoableCommand {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, parentPhone, parentEmail, address,
-                    school, acadStream, acadLevel, remark, tags);
+                    school, acadStream, acadLevel, outstandingFee, remark, tags);
         }
 
         public void setName(Name name) {
@@ -302,6 +308,14 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(remark);
         }
 
+        public void setFee(Fee outstandingFee) {
+            this.outstandingFee = outstandingFee;
+        }
+
+        public Optional<Fee> getFee() {
+            return Optional.ofNullable(outstandingFee);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -356,6 +370,7 @@ public class EditCommand extends UndoableCommand {
                     && getSchool().equals(e.getSchool())
                     && getAcadStream().equals(e.getAcadStream())
                     && getAcadLevel().equals(e.getAcadLevel())
+                    && getFee().equals(e.getFee())
                     && getRemark().equals(e.getRemark())
                     && getTags().equals(e.getTags())
                     && getLessons().equals(e.getLessons());

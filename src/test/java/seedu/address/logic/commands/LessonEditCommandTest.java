@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_CLASHING_TIME_RANGE;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_FUTURE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_MON;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_NEXT_MON;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_PAST;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_PREV_MON;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_TUE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_HOMEWORK_POETRY;
@@ -19,7 +17,6 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.logic.commands.LessonEditCommand.MESSAGE_CLASHING_LESSON;
 import static seedu.address.logic.commands.LessonEditCommand.MESSAGE_INVALID_CANCEL_DATE;
-import static seedu.address.logic.commands.LessonEditCommand.MESSAGE_INVALID_DATE_RANGE;
 import static seedu.address.logic.commands.LessonEditCommand.MESSAGE_INVALID_UNCANCEL_DATE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LESSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -36,7 +33,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.LessonEditCommand.EditLessonDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.commands.util.CommandUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -207,142 +203,6 @@ class LessonEditCommandTest {
     }
 
     @Test
-    public void execute_validDateRangeMakeUp_success() {
-        // Makeup lesson
-        Lesson lesson = new LessonBuilder()
-            .withDate(VALID_DATE_FUTURE)
-            .withEndDate(VALID_DATE_FUTURE)
-            .build();
-
-        Lesson editedLesson = new LessonBuilder().withDate(VALID_DATE_PAST).build();
-
-        Person personBeforeLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(lesson)
-            .build();
-        Person personAfterLessonEdit = new PersonBuilder(firstPerson)
-                .withLessons(editedLesson).build();
-
-        model.setPerson(firstPerson, personBeforeLessonEdit); // Ensure at least one lesson to edit
-
-        EditLessonDescriptor descriptor = new EditLessonDescriptorBuilder(lesson)
-            .withDate(VALID_DATE_PAST).build();
-
-        LessonEditCommand lessonEditCommand =
-            prepareLessonEditCommand(INDEX_FIRST_PERSON, INDEX_FIRST_LESSON, descriptor);
-
-        String expectedMessage = String.format(LessonEditCommand.MESSAGE_EDIT_LESSON_SUCCESS,
-            personAfterLessonEdit.getName(),
-            lesson, editedLesson);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),
-            personAfterLessonEdit);
-
-        assertCommandSuccess(lessonEditCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_validDateRangeRecurring_success() {
-        // Recurring lesson
-        Lesson lesson = new LessonBuilder()
-            .withDate(VALID_DATE_FUTURE)
-            .withEndDate(VALID_DATE_FUTURE)
-            .buildRecurring();
-
-        Lesson editedLesson = new LessonBuilder()
-            .withDate(VALID_DATE_PAST)
-            .withEndDate(VALID_DATE_FUTURE)
-            .buildRecurring();
-
-        Person personBeforeLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(lesson)
-            .build();
-        Person personAfterLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(editedLesson).build();
-
-        model.setPerson(firstPerson, personBeforeLessonEdit); // Ensure at least one lesson to edit
-
-        EditLessonDescriptor descriptor = new EditLessonDescriptorBuilder(lesson)
-            .withDate(VALID_DATE_PAST).build();
-
-        LessonEditCommand lessonEditCommand =
-            prepareLessonEditCommand(INDEX_FIRST_PERSON, INDEX_FIRST_LESSON, descriptor);
-
-        String expectedMessage = String.format(LessonEditCommand.MESSAGE_EDIT_LESSON_SUCCESS,
-            personAfterLessonEdit.getName(),
-            lesson, editedLesson);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),
-            personAfterLessonEdit);
-
-        assertCommandSuccess(lessonEditCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_invalidDateRange_failure() {
-        // Recurring lesson
-        Lesson lesson = new LessonBuilder()
-            .withDate(VALID_DATE_FUTURE)
-            .buildRecurring();
-
-        Person personBeforeLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(lesson)
-            .build();
-
-        model.setPerson(firstPerson, personBeforeLessonEdit); // Ensure at least one lesson to edit
-
-        EditLessonDescriptor descriptor = new EditLessonDescriptorBuilder(lesson)
-            .withEndDate(VALID_DATE_PAST).build();
-
-        LessonEditCommand lessonEditCommand =
-            prepareLessonEditCommand(INDEX_FIRST_PERSON, INDEX_SECOND_LESSON, descriptor);
-
-        assertThrows(CommandException.class, () -> lessonEditCommand.execute(), MESSAGE_INVALID_DATE_RANGE);
-    }
-
-    @Test
-    public void execute_nonClashingEditedLessonDifferentDateRange_success() {
-        Lesson existingLesson = new LessonBuilder()
-            .withDate(VALID_DATE_PREV_MON)
-            .withEndDate(VALID_DATE_MON)
-            .buildRecurring();
-
-        Lesson lessonBeforeEdit = new LessonBuilder()
-            .withDate(VALID_DATE_FUTURE)
-            .buildRecurring();
-
-        Lesson lessonAfterEdit = new LessonBuilder()
-            .withDate(VALID_DATE_TUE)
-            .buildRecurring();
-
-        Person personBeforeLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(existingLesson, lessonBeforeEdit)
-            .build();
-
-        Person personAfterLessonEdit = new PersonBuilder(firstPerson)
-            .withLessons(existingLesson, lessonAfterEdit)
-            .build();
-
-        model.setPerson(firstPerson, personBeforeLessonEdit);
-
-        EditLessonDescriptor descriptor = new EditLessonDescriptorBuilder(lessonBeforeEdit)
-            .withDate(VALID_DATE_TUE).build();
-
-        LessonEditCommand lessonEditCommand =
-            prepareLessonEditCommand(INDEX_FIRST_PERSON, INDEX_SECOND_LESSON, descriptor);
-
-        String expectedMessage = String.format(LessonEditCommand.MESSAGE_EDIT_LESSON_SUCCESS,
-            personAfterLessonEdit.getName(), lessonBeforeEdit, lessonAfterEdit);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),
-            personAfterLessonEdit);
-
-        assertCommandSuccess(lessonEditCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void execute_clashingEditedLesson_failure() {
         Lesson existingLesson = new LessonBuilder()
                 .withTimeRange(VALID_TIME_RANGE)
@@ -482,8 +342,7 @@ class LessonEditCommandTest {
         LessonEditCommand lessonEditCommand =
                 prepareLessonEditCommand(INDEX_FIRST_PERSON, INDEX_SECOND_LESSON, descriptor);
 
-        assertCommandFailure(lessonEditCommand, model, MESSAGE_CLASHING_LESSON
-                + CommandUtil.lessonsToString(model.getClashingLessonsString(makeupLesson)));
+        assertCommandFailure(lessonEditCommand, model, MESSAGE_CLASHING_LESSON);
     }
 
     @Test

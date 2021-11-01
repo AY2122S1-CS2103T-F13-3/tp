@@ -10,6 +10,7 @@
     "school": "RI",
     "acadStream": "IP",
     "acadLevel": "Y6",
+    "outstandingFee": "0",
     "remark" : "She likes Cheesecake",
     "tagged" : [ "forgetful" ]
   }, {
@@ -22,6 +23,7 @@
     "school": "HCI",
     "acadStream": "IP",
     "acadLevel": "Y3",
+    "outstandingFee": "99.99",
     "remark" : "He likes chocolate ice cream",
     "tagged" : [ "unpaid", "forgetful" ]
   }, {
@@ -34,6 +36,7 @@
     "school": "ACSI",
     "acadStream": "IB",
     "acadLevel": "Y1",
+    "outstandingFee": "0",
     "remark" : "He likes french fries",
     "tagged" : [ ]
   }, {
@@ -46,6 +49,7 @@
     "school": "CCHM",
     "acadStream": "",
     "acadLevel": "",
+    "outstandingFee": "0",
     "remark" : "",
     "tagged" : [ "forgetful" ]
   }, {
@@ -58,6 +62,7 @@
     "school": "",
     "acadStream": "IELTS",
     "acadLevel": "",
+    "outstandingFee": "0",
     "remark" : "",
     "tagged" : [ ]
   }, {
@@ -70,6 +75,7 @@
     "school": "",
     "acadStream": "",
     "acadLevel": "S5",
+    "outstandingFee": "0",
     "remark" : "",
     "tagged" : [ ]
   }, {
@@ -82,10 +88,8 @@
     "school": "",
     "acadStream": "",
     "acadLevel": "J2",
+    "outstandingFee": "0",
     "remark" : "",
     "tagged" : [ ]
-  } ],
-  "lastUpdated": {
-    "dateTime": "2021-10-23T10:15"
-  }
+  } ]
 }

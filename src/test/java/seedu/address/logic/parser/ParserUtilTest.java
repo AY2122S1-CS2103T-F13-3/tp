@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
@@ -21,16 +20,19 @@ import seedu.address.model.lesson.Homework;
 import seedu.address.model.lesson.Subject;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Fee;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
+    // TODO: Tests for parsing fees
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_FEE = "$9,999.999";
     private static final String INVALID_TAG = "#friend";
 
     private static final String INVALID_TIME = "1200";
@@ -175,6 +177,29 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseFee_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseFee((String) null));
+    }
+
+    @Test
+    public void parseFee_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseFee(INVALID_FEE));
+    }
+
+    @Test
+    public void parseFee_validValueWithoutWhitespace_returnsFee() throws Exception {
+        Fee expectedFee = new Fee(VALID_FEE);
+        assertEquals(expectedFee, ParserUtil.parseFee(VALID_FEE));
+    }
+
+    @Test
+    public void parseFee_validValueWithWhitespace_returnsTrimmedFee() throws Exception {
+        String feeWithWhitespace = WHITESPACE + VALID_FEE + WHITESPACE;
+        Fee expectedFee = new Fee(VALID_FEE);
+        assertEquals(expectedFee, ParserUtil.parseFee(feeWithWhitespace));
+    }
+
+    @Test
     public void parseRemark_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((String) null));
     }
@@ -239,8 +264,8 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseDate_null_doesNotThrowNullPointerException() {
-        assertDoesNotThrow(() -> ParserUtil.parseDate((String) null));
+    public void parseDate_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDate((String) null));
     }
 
     @Test
@@ -251,14 +276,14 @@ public class ParserUtilTest {
     @Test
     public void parseDate_validValueWithoutWhitespace_returnsDate() throws Exception {
         Date expectedDate = new Date(VALID_DATE);
-        assertEquals(expectedDate, ParserUtil.parseDate(VALID_DATE).orElse(Date.MAX_DATE));
+        assertEquals(expectedDate, ParserUtil.parseDate(VALID_DATE));
     }
 
     @Test
     public void parseDate_validValueWithWhitespace_returnsTrimmedDate() throws Exception {
         String dateWithWhitespace = WHITESPACE + VALID_DATE + WHITESPACE;
         Date expectedDate = new Date(VALID_DATE);
-        assertEquals(expectedDate, ParserUtil.parseDate(dateWithWhitespace).orElse(Date.MAX_DATE));
+        assertEquals(expectedDate, ParserUtil.parseDate(dateWithWhitespace));
     }
 
     @Test

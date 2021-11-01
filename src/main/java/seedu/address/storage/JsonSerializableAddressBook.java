@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
-import seedu.address.model.LastUpdatedDate;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
@@ -25,16 +24,13 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
-    private final JsonAdaptedLastUpdated lastUpdated;
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-                                       @JsonProperty("lastUpdated") JsonAdaptedLastUpdated lastUpdated) {
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
         this.persons.addAll(persons);
-        this.lastUpdated = lastUpdated;
     }
 
     /**
@@ -44,7 +40,6 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
-        lastUpdated = new JsonAdaptedLastUpdated(source.getLastUpdatedDate().value);
     }
 
     /**
@@ -64,13 +59,6 @@ class JsonSerializableAddressBook {
             }
             addressBook.addPerson(person);
         }
-
-        if (lastUpdated == null) {
-            throw new IllegalValueException(JsonAdaptedLastUpdated.MISSING_FIELD_MESSAGE_FORMAT);
-        }
-        LastUpdatedDate lastUpdatedDate = lastUpdated.toModelType();
-        addressBook.setLastUpdatedDate(lastUpdatedDate);
-
         return addressBook;
     }
 }
