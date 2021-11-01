@@ -25,7 +25,6 @@ public class TimeRange implements Comparable<TimeRange> {
 
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("HHmm");
 
-
     public final String value;
 
     private final LocalTime start;

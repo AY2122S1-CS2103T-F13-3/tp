@@ -17,6 +17,11 @@ public interface ReadOnlyAddressBook {
     ObservableList<Person> getPersonList();
 
     /**
+     * Returns the date when the system was updated.
+     */
+    LastUpdatedDate getLastUpdatedDate();
+
+    /**
      * Returns an unmodifiable view of the tag list.
      *
      * @return An unmodifiable view of the tag list.
@@ -25,5 +30,4 @@ public interface ReadOnlyAddressBook {
 
     /** Returns an unmodifiable view of the tag counter map. */
     ObservableMap<Tag, Integer> getTagCounter();
-
 }

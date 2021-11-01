@@ -6,7 +6,6 @@ import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_FEE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PARENT_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PARENT_PHONE_BOB;
@@ -57,10 +56,6 @@ public class EditPersonDescriptorTest {
 
         // different parent email -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withParentEmail(VALID_PARENT_EMAIL_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
-
-        // different outstanding fees -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withFee(VALID_FEE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different remark -> returns false

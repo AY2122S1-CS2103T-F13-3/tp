@@ -1,6 +1,7 @@
 package seedu.address.logic.commands.util;
 
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -44,5 +45,17 @@ public class CommandUtil {
         }
 
         return lessonList.get(lessonIndex.getZeroBased());
+    }
+
+    /**
+     * Return a string representation of all the lessons in the set.
+     *
+     * @param lessons Set of lessons.
+     * @return String representation of the lessons in the set.
+     */
+    public static String lessonsToString(Set<String> lessons) {
+        String lessonString = lessons.stream()
+            .reduce("\nClashing Lesson(s):", (x, y) -> x + "\n" + y);
+        return lessonString;
     }
 }

@@ -14,7 +14,7 @@ public class ViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
 
-    public static final String COMMAND_PARAMETERS = "INDEX (must be a positive integer) ";
+    public static final String COMMAND_PARAMETERS = "INDEX";
 
     public static final String COMMAND_FORMAT = COMMAND_WORD + " " + COMMAND_PARAMETERS;
 

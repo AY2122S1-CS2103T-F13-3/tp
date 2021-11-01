@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NON_CLASHING_TIME_RANGE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LESSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -24,7 +23,6 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.LessonAddCommand;
 import seedu.address.logic.commands.LessonDeleteCommand;
-import seedu.address.logic.commands.LessonEditCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MonthCommand;
 import seedu.address.logic.commands.NextCommand;
@@ -35,7 +33,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonMatchesKeywordsPredicate;
-import seedu.address.testutil.EditLessonDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.LessonBuilder;
 import seedu.address.testutil.LessonUtil;
@@ -75,19 +72,6 @@ public class AddressBookParserTest {
                         INDEX_FIRST_PERSON.getOneBased(),
                         lesson));
         LessonAddCommand other = new LessonAddCommand(INDEX_FIRST_PERSON, lesson);
-        assertEquals(other, command);
-    }
-
-    @Test
-    public void parseCommand_ledit() throws Exception {
-        Lesson lesson = new LessonBuilder().withTimeRange(VALID_NON_CLASHING_TIME_RANGE).build();
-        LessonEditCommand command = (LessonEditCommand) parser.parseCommand(
-            LessonUtil.getLessonEditCommand(
-                INDEX_FIRST_PERSON.getOneBased(),
-                INDEX_FIRST_LESSON.getOneBased(),
-                lesson));
-        LessonEditCommand other = new LessonEditCommand(INDEX_FIRST_PERSON, INDEX_FIRST_LESSON,
-                new EditLessonDescriptorBuilder(lesson).build());
         assertEquals(other, command);
     }
 

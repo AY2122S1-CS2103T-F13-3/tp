@@ -9,7 +9,6 @@ import seedu.address.model.person.AcadLevel;
 import seedu.address.model.person.AcadStream;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Fee;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -46,7 +45,6 @@ public class EditPersonDescriptorBuilder {
         descriptor.setSchool(person.getSchool());
         descriptor.setAcadStream(person.getAcadStream());
         descriptor.setAcadLevel(person.getAcadLevel());
-        descriptor.setFee(person.getFee());
         descriptor.setRemark(person.getRemark());
         descriptor.setTags(person.getTags());
     }
@@ -120,14 +118,6 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withAcadLevel(String acadLevel) {
         descriptor.setAcadLevel(new AcadLevel(acadLevel));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Remark} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withFee(String fee) {
-        descriptor.setFee(new Fee(fee));
         return this;
     }
 

@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_STREAM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FEE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_PHONE;
@@ -42,7 +41,7 @@ public class EditCommandParser implements Parser<EditCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
                         PREFIX_PARENT_PHONE, PREFIX_PARENT_EMAIL, PREFIX_ADDRESS,
                         PREFIX_SCHOOL, PREFIX_ACAD_STREAM, PREFIX_ACAD_LEVEL,
-                        PREFIX_FEE, PREFIX_REMARK, PREFIX_TAG);
+                        PREFIX_REMARK, PREFIX_TAG);
 
         Index index;
 
@@ -77,9 +76,6 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_ACAD_STREAM).isPresent()) {
             editPersonDescriptor.setAcadStream(ParserUtil.parseAcadStream(
                     argMultimap.getValue(PREFIX_ACAD_STREAM).get()));
-        }
-        if (argMultimap.getValue(PREFIX_FEE).isPresent()) {
-            editPersonDescriptor.setFee(ParserUtil.parseFee(argMultimap.getValue(PREFIX_FEE).get()));
         }
         if (argMultimap.getValue(PREFIX_ACAD_LEVEL).isPresent()) {
             editPersonDescriptor.setAcadLevel(

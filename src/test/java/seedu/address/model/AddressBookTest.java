@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_ZOOM;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.LastUpdatedDateUtil.VALID_LAST_UPDATED_DATE_TIME;
 import static seedu.address.testutil.TypicalLessons.MAKEUP_LESSON;
 import static seedu.address.testutil.TypicalLessons.RECURRING_LESSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -140,6 +141,7 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final LastUpdatedDate lastUpdatedDate = new LastUpdatedDate(VALID_LAST_UPDATED_DATE_TIME);
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -148,6 +150,11 @@ public class AddressBookTest {
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public LastUpdatedDate getLastUpdatedDate() {
+            return lastUpdatedDate;
         }
 
         @Override

@@ -4,9 +4,9 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.model.lesson.Lesson;
 
 public class ReminderLessonCard extends UiPart<Region> {
@@ -28,7 +28,9 @@ public class ReminderLessonCard extends UiPart<Region> {
     @FXML
     private Label rates;
     @FXML
-    private FlowPane homeworkList;
+    private Label outstandingFees;
+    @FXML
+    private VBox homeworkList;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -38,9 +40,11 @@ public class ReminderLessonCard extends UiPart<Region> {
         this.lesson = lesson;
         this.lessonTitle.setText(lessonTitle);
         lessonId.setText(displayedIndex + ". ");
-        date.setText("Date: " + lesson.getDisplayDate().value);
-        time.setText("Time: " + lesson.getTimeRange().toString());
-        rates.setText("Rates: $" + lesson.getLessonRates().toString());
+        date.setText(lesson.getDisplayDate().value);
+        time.setText(lesson.getTimeRange().toString());
+        rates.setText(lesson.getLessonRates().toString());
+        outstandingFees.setText(lesson.getOutstandingFees().toString());
+        homeworkList.setManaged(!lesson.getHomework().isEmpty());
         lesson.getHomework().stream()
                 .sorted(Comparator.comparing(homework -> homework.description))
                 .forEach(homework -> homeworkList.getChildren()

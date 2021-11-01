@@ -4,7 +4,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_STREAM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FEE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FIND_CONDITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_EMAIL;
@@ -54,7 +53,6 @@ public class PersonUtil {
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         sb.append(PREFIX_SCHOOL + person.getSchool().value + " ");
         sb.append(PREFIX_ACAD_STREAM + person.getAcadStream().value + " ");
-        sb.append(PREFIX_FEE + person.getFee().value + " ");
         sb.append(PREFIX_REMARK + person.getRemark().value + " ");
         person.getTags().stream().forEach(s -> sb.append(PREFIX_TAG + s.getTagName() + " "));
         return sb.toString();
@@ -79,7 +77,6 @@ public class PersonUtil {
                 sb.append(PREFIX_ACAD_STREAM).append(acadStream.value).append(" "));
         descriptor.getAcadLevel().ifPresent(acadLevel ->
                 sb.append(PREFIX_ACAD_LEVEL).append(acadLevel.value).append(" "));
-        descriptor.getFee().ifPresent(fee -> sb.append(PREFIX_FEE).append(fee.value).append(" "));
         descriptor.getRemark().ifPresent(remark -> sb.append(PREFIX_REMARK).append(remark.value).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();

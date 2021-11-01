@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Entry;
@@ -27,6 +28,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final CalendarEntryList entries;
+    private LastUpdatedDate lastUpdatedDate;
     private final UniqueTagList tags;
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -38,6 +40,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         entries = new CalendarEntryList();
+        lastUpdatedDate = new LastUpdatedDate();
         tags = new UniqueTagList();
     }
 
@@ -70,6 +73,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setLastUpdatedDate(newData.getLastUpdatedDate());
     }
 
     //// person-level operations
@@ -104,6 +108,22 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasClashingLesson(Iterable<Lesson> lessons) {
         requireAllNonNull(lessons);
         return entries.hasClashes(lessons);
+    }
+
+    /**
+     * Returns {@code Set<String>} of existing lessons in the address book that are clashing with the lesson.
+     */
+    public Set<String> getClashingLessonsString(Lesson lesson) {
+        requireNonNull(lesson);
+        return entries.getClashes(lesson);
+    }
+
+    /**
+     * Returns {@code Set<String>} of existing lessons in the address book that are clashing with the lesson.
+     */
+    public Set<String> getClashingLessonsString(Lesson lesson, Lesson lessonToIgnore) {
+        requireNonNull(lesson);
+        return entries.getClashes(lesson, lessonToIgnore);
     }
 
     /**
@@ -167,6 +187,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.asUnmodifiableObservableList();
     }
 
+    @Override
+    public LastUpdatedDate getLastUpdatedDate() {
+        return new LastUpdatedDate(lastUpdatedDate.getLastUpdatedDate().value);
+    }
+
+    public void setLastUpdatedDate(LastUpdatedDate lastUpdatedDate) {
+        this.lastUpdatedDate = new LastUpdatedDate(lastUpdatedDate.getLastUpdatedDate().value);
+    }
+
     /**
      * Returns an unmodifiable view of the tag list.
      *
@@ -182,13 +211,30 @@ public class AddressBook implements ReadOnlyAddressBook {
         return tags.asUnmodifiableMap();
     }
 
+    /**
+     * Returns the Calendar consisting of all lessons entries.
+     *
+     * @return The Calendar consisting of all lessons entries.
+     */
     public Calendar getCalendar() {
         // TODO: Make defensive
         return entries.getCalendar();
     }
 
+    /**
+     * Returns a list of upcoming lessons within the next two days.
+     *
+     * @return List of upcoming lessons within the next two days.
+     */
     public ObservableList<Entry<Lesson>> getUpcomingLessons() {
         return entries.getUpcomingLessons();
+    }
+
+    /**
+     * Updates the list of upcoming lessons.
+     */
+    public void updateUpcomingLessons() {
+        entries.updateUpcomingLessons();
     }
 
     @Override
@@ -207,6 +253,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         AddressBook other = (AddressBook) obj;
         return persons.equals(other.persons)
                 && entries.equals(other.entries)
+                && lastUpdatedDate.equals(other.lastUpdatedDate)
                 && tags.equals(((AddressBook) other).tags);
     }
 

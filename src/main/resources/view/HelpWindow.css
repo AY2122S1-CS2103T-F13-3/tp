@@ -60,6 +60,8 @@
 .table-view .virtual-flow .scroll-bar:horizontal .track,
 .table-view .virtual-flow .scroll-bar:horizontal .track-background {
     -fx-background-color: #E2E5F2;
+    -fx-pref-width: 12;
+    -fx-background-radius: 20;
 }
 
 .table-view .virtual-flow .scroll-bar .increment-button,

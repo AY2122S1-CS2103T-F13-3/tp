@@ -9,6 +9,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.LastUpdatedDate;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -164,7 +166,17 @@ public class AddCommandTest {
 
         @Override
         public boolean hasClashingLesson(Lesson lesson, Lesson lessonToIgnore) {
-            throw new AssertionError("This method should not be called.");
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
+        }
+
+        @Override
+        public Set<String> getClashingLessonsString(Lesson lesson) {
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
+        }
+
+        @Override
+        public Set<String> getClashingLessonsString(Lesson lesson, Lesson lessonToIgnore) {
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
         }
 
         @Override
@@ -188,12 +200,27 @@ public class AddCommandTest {
         }
 
         @Override
+        public void updateUpcomingLessons() {
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
+        }
+
+        @Override
         public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
         }
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
+        }
+
+        @Override
+        public LastUpdatedDate getLastUpdatedDate() {
+            throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
+        }
+
+        @Override
+        public void setLastUpdatedDate() {
             throw new AssertionError(MESSAGE_UNEXPECTED_METHOD_CALL);
         }
 

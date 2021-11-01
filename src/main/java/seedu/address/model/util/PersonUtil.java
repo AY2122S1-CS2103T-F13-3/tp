@@ -7,7 +7,6 @@ import seedu.address.model.person.AcadLevel;
 import seedu.address.model.person.AcadStream;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Fee;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -38,12 +37,11 @@ public class PersonUtil {
         School updatedSchool = personToEdit.getSchool();
         AcadStream updatedAcadStream = personToEdit.getAcadStream();
         AcadLevel updatedAcadLevel = personToEdit.getAcadLevel();
-        Fee updatedOutstandingFee = personToEdit.getFee();
         Remark updatedRemark = personToEdit.getRemark();
         Set<Tag> updatedTags = personToEdit.getTags();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedParentPhone, updatedParentEmail,
-                updatedAddress, updatedSchool, updatedAcadStream, updatedAcadLevel, updatedOutstandingFee,
+                updatedAddress, updatedSchool, updatedAcadStream, updatedAcadLevel,
                 updatedRemark, updatedTags, updatedLessons);
     }
 }

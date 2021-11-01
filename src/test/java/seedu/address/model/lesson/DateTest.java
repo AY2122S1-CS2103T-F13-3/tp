@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalDates.DATE_CURRENT_WEEK;
+import static seedu.address.testutil.TypicalDates.DATE_ONE_WEEK_AGO;
+import static seedu.address.testutil.TypicalDates.DATE_ONE_WEEK_LATER;
+import static seedu.address.testutil.TypicalDates.DATE_TWO_WEEKS_LATER;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -94,13 +98,10 @@ public class DateTest {
         assertTrue(Date.isValidDate("29 Feb 2020")); // leap year
     }
 
-
     @Test
     public void updateDate_withoutSkipDates() {
         // At least 1 week has passed
-        Date today = DateUtil.build(LocalDate.now());
-        Date dateOneWeekAgo = DateUtil.build(LocalDate.now().minusWeeks(1));
-        assertEquals(today, dateOneWeekAgo.updateDate(EMPTY_DATES));
+        assertEquals(DATE_CURRENT_WEEK, DATE_ONE_WEEK_AGO.updateDate(EMPTY_DATES));
 
         // Less than a week has passed but the date is over.
         long daysBefore = 2;
@@ -110,28 +111,21 @@ public class DateTest {
         assertEquals(dateNext, dateLessThanOneWeekAgo.updateDate(EMPTY_DATES));
 
         // Current date (date is not over yet)
-        assertEquals(today, today.updateDate(EMPTY_DATES));
+        assertEquals(DATE_CURRENT_WEEK, DATE_CURRENT_WEEK.updateDate(EMPTY_DATES));
 
         // Future date
-        Date nextWeek = DateUtil.build(LocalDate.now().plusWeeks(1));
-        assertEquals(nextWeek, nextWeek.updateDate(EMPTY_DATES));
+        assertEquals(DATE_ONE_WEEK_LATER, DATE_ONE_WEEK_LATER.updateDate(EMPTY_DATES));
     }
 
     @Test
     public void updateDate_withSkipDates() {
         // Current date skip
-        Date dateOneWeekAgo = DateUtil.build(LocalDate.now().minusWeeks(1));
-        Date dateCurrentWeek = DateUtil.build(LocalDate.now());
-        Date dateNextWeek = DateUtil.build(LocalDate.now().plusWeeks(1));
-        Set<Date> cancelledDates = Set.of(dateCurrentWeek);
-
-        assertEquals(dateNextWeek, dateOneWeekAgo.updateDate(cancelledDates));
+        Set<Date> cancelledDates = Set.of(DATE_CURRENT_WEEK);
+        assertEquals(DATE_ONE_WEEK_LATER, DATE_ONE_WEEK_AGO.updateDate(cancelledDates));
 
         // Skip consecutive dates
-        cancelledDates = Set.of(dateCurrentWeek, dateNextWeek);
-        Date dateTwoWeeksLater = DateUtil.build(LocalDate.now().plusWeeks(2));
-
-        assertEquals(dateTwoWeeksLater, dateOneWeekAgo.updateDate(cancelledDates));
+        cancelledDates = Set.of(DATE_CURRENT_WEEK, DATE_ONE_WEEK_LATER);
+        assertEquals(DATE_TWO_WEEKS_LATER, DATE_ONE_WEEK_AGO.updateDate(cancelledDates));
     }
 }
 

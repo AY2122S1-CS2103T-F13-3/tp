@@ -22,8 +22,8 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.SCHOOL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.SCHOOL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FORGETFUL;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_ZOOM;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ACAD_LEVEL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ACAD_STREAM_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ACAD_STREAM_BOB;
@@ -132,8 +132,8 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        String userInput = PHONE_DESC_BOB + TAG_DESC_HUSBAND + PARENT_EMAIL_DESC_AMY + PARENT_PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + SCHOOL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND
+        String userInput = PHONE_DESC_BOB + TAG_DESC_ZOOM + PARENT_EMAIL_DESC_AMY + PARENT_PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + SCHOOL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FORGETFUL
                 + ACAD_LEVEL_DESC_AMY + ACAD_STREAM_DESC_AMY + FIND_COND_DESC_ALL;
 
         PersonMatchesKeywordsPredicate
@@ -153,7 +153,7 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_someFieldsSpecified_success() {
-        String userInput = PHONE_DESC_BOB + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = PHONE_DESC_BOB + NAME_DESC_AMY + TAG_DESC_FORGETFUL;
 
         PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicateBuilder()
                 .withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_FORGETFUL).build();
@@ -165,21 +165,21 @@ public class FindCommandParserTest {
     @Test
     public void parse_condition_success() {
         // Match all
-        String userInput = FIND_COND_DESC_ALL + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = FIND_COND_DESC_ALL + NAME_DESC_AMY + TAG_DESC_FORGETFUL;
         PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicateBuilder()
                 .withCondition(FindCondition.ALL).withName(VALID_NAME_AMY).withTags(VALID_TAG_FORGETFUL).build();
         FindCommand expectedCommand = new FindCommand(predicate);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // Match any
-        userInput = FIND_COND_DESC_ANY + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        userInput = FIND_COND_DESC_ANY + NAME_DESC_AMY + TAG_DESC_FORGETFUL;
         predicate = new PersonMatchesKeywordsPredicateBuilder().withCondition(FindCondition.ANY)
                 .withName(VALID_NAME_AMY).withTags(VALID_TAG_FORGETFUL).build();
         expectedCommand = new FindCommand(predicate);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // Match none
-        userInput = FIND_COND_DESC_NONE + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        userInput = FIND_COND_DESC_NONE + NAME_DESC_AMY + TAG_DESC_FORGETFUL;
         predicate = new PersonMatchesKeywordsPredicateBuilder().withCondition(FindCondition.NONE)
                 .withName(VALID_NAME_AMY).withTags(VALID_TAG_FORGETFUL).build();
         expectedCommand = new FindCommand(predicate);
@@ -248,17 +248,17 @@ public class FindCommandParserTest {
         // tags
         predicate = new PersonMatchesKeywordsPredicateBuilder().withTags(VALID_TAG_FORGETFUL).build();
         expectedCommand = new FindCommand(predicate);
-        assertParseSuccess(parser, TAG_DESC_FRIEND, expectedCommand);
+        assertParseSuccess(parser, TAG_DESC_FORGETFUL, expectedCommand);
     }
 
     @Test
     public void parse_multipleRepeatedFields_acceptsLast() {
         String userInput = PHONE_DESC_AMY + SCHOOL_DESC_AMY + ADDRESS_DESC_AMY + ACAD_STREAM_DESC_AMY + EMAIL_DESC_AMY
                 + ACAD_LEVEL_DESC_BOB + FIND_COND_DESC_NONE + PARENT_EMAIL_DESC_BOB + PARENT_PHONE_DESC_BOB
-                + TAG_DESC_FRIEND + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
+                + TAG_DESC_FORGETFUL + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FORGETFUL
                 + SCHOOL_DESC_AMY + PARENT_EMAIL_DESC_AMY + PARENT_PHONE_DESC_AMY
                 + PHONE_DESC_BOB + ADDRESS_DESC_BOB + SCHOOL_DESC_BOB + ACAD_LEVEL_DESC_AMY + EMAIL_DESC_BOB
-                + ACAD_STREAM_DESC_BOB + FIND_COND_DESC_ANY + TAG_DESC_HUSBAND;
+                + ACAD_STREAM_DESC_BOB + FIND_COND_DESC_ANY + TAG_DESC_ZOOM;
 
         PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicateBuilder()
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)

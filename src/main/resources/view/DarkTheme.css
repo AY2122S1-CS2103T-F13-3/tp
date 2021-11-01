@@ -1,26 +1,25 @@
 .background {
-    -fx-background-color: derive(#1d1d1d, 20%);
-    background-color: #383838; /* Used in the default.html file */
+    -fx-background-color: #F0F3FD;
+    background-color: #F0F3FD; /* Used in the default.html file */
 }
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Open Sans Semibold";
-    -fx-text-fill: #555555;
-    -fx-opacity: 0.9;
+    -fx-text-fill: #424874;
 }
 
 .label-bright {
-    -fx-font-size: 11pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Open Sans Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Open Sans Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
     -fx-opacity: 1;
 }
 
@@ -40,9 +39,9 @@
 }
 
 .table-view {
-    -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
+    -fx-base: #A6B1E160;
+    -fx-control-inner-background: #A6B1E160;
+    -fx-background-color: #F0F3FD;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: transparent;
     -fx-padding: 5;
@@ -54,146 +53,151 @@
 
 .table-view .column-header, .table-view .filler {
     -fx-size: 35;
-    -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
-    -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
-    -fx-border-insets: 0 10 1 0;
 }
 
 .table-view .column-header .label {
     -fx-font-size: 20pt;
     -fx-font-family: "Open Sans Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
     -fx-alignment: center-left;
     -fx-opacity: 1;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color: #A6B1E165;
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: derive(#1d1d1d, 20%);
-    -fx-border-color: transparent transparent transparent #4d4d4d;
+    -fx-background-color: #F0F3FD;
 }
 
 .split-pane {
     -fx-border-radius: 1;
     -fx-border-width: 1;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #F0F3FD;
 }
 
 .list-view {
     -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #d5daf2;
+    -fx-padding: 5 0 5 0;
+    -fx-background-radius: 15;
 }
 
 .list-cell {
-    -fx-label-padding: 0 0 0 0;
+    -fx-label-padding: 2;
     -fx-graphic-text-gap : 0;
-    -fx-padding: 0 0 0 0;
+    -fx-padding: 10 15 10 15;
+    -fx-background-radius: 20;
+    -fx-background-insets: 5 10 5 10;
 }
 
-.list-cell:filled:even {
-    -fx-background-color: #3c3e3f;
+.list-cell:even {
+    -fx-background-color: #F0F3FD;
 }
 
-.list-cell:filled:odd {
-    -fx-background-color: #515658;
+.list-cell:odd {
+    -fx-background-color: #F0F3FD;
 }
 
-.list-cell:filled:selected {
-    -fx-background-color: #424d5f;
-}
-
-.list-cell:filled:selected #cardPane {
-    -fx-border-color: #3e7b91;
-    -fx-border-width: 1;
+.list-cell:selected {
+    -fx-background-color: #A6B1E165;
 }
 
 .list-cell .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
 }
 
 .cell_big_label {
     -fx-font-family: "Open Sans Semibold";
     -fx-font-size: 16px;
-    -fx-text-fill: #010504;
+    -fx-text-fill: #424874;
+}
+
+.cell_medium_large_label {
+    -fx-font-family: "Open Sans Semibold";
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.cell_medium_label {
+    -fx-font-family: "Open Sans SemiBold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #424874;
 }
 
 .cell_small_label {
     -fx-font-family: "Open Sans Regular";
     -fx-font-size: 13px;
-    -fx-text-fill: #010504;
+    -fx-text-fill: #424874;
 }
 
 .stack-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
 }
 
 .pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
-     -fx-border-top-width: 1px;
+    -fx-background-color: #F0F3FD;
 }
 
 .status-bar {
-    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-background-color: #8390C9;
 }
 
 .result-display {
     -fx-background-color: transparent;
     -fx-font-family: "Open Sans Light";
     -fx-font-size: 13pt;
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
 }
 
 .result-display .label {
-    -fx-text-fill: black !important;
+    -fx-text-fill: #424874 !important;
 }
 
 .status-bar .label {
     -fx-font-family: "Open Sans Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
     -fx-padding: 4px;
     -fx-pref-height: 30px;
 }
 
 .status-bar-with-border {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 25%);
-    -fx-border-width: 1px;
+    -fx-background-color: #F0F3FD;
 }
 
 .status-bar-with-border .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
 }
 
 .grid-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 30%);
-    -fx-border-width: 1px;
+    -fx-background-color: #F0F3FD;
 }
 
 .grid-pane .stack-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-background-color: #F0F3FD;
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d, 50%);
+    -fx-background-color: #8390C9;
 }
 
 .context-menu .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
 }
 
+/*
+ * Set selection background color when user is not hovering over the menu item.
+ * Solution adapted from:
+ * https://stackoverflow.com/questions/49567454/menu-color-changes-on-mouse-leave
+ */
 .menu-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #8390C9;
+    -fx-selection-bar: #6172BE ;
+    -fx-text-background-color: white ;
+    -fx-focused-text-base-color: white ;
 }
 
 .menu-bar .label {
@@ -204,62 +208,134 @@
 }
 
 .menu .left-container {
-    -fx-background-color: black;
+    -fx-background-color: #8390C9;
+}
+
+.menu-button:hover {
+    -fx-background-color: #6172BE;
+    -fx-cursor: hand;
+}
+
+.menu-button:focused {
+    -fx-background-color: #6172BE;
+    -fx-cursor: hand;
+}
+
+.menu:focused {
+    -fx-background-color: #6172BE;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover {
+    -fx-background-color: #6172BE;
+    -fx-cursor: hand;
+}
+
+/*
+ * Metro style Push Button
+ * Author: Pedro Duque Vieira
+ * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
+ */
+.button {
+    -fx-padding: 5 22 5 22;
+    -fx-background-radius: 0;
+    -fx-background-color: #F0F3FD;
+    -fx-font-family: "Open Sans Regular";
+    -fx-font-size: 11pt;
+    -fx-text-fill: #424874;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.button:hover {
+    -fx-background-color: #6172BE;
+}
+
+.button:pressed, .button:default:hover:pressed {
+  -fx-background-color: #6172BE;
+  -fx-text-fill: white;
+}
+
+.button:focused {
+    -fx-background-color: #6172BE;
+}
+
+.button:disabled, .button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: #F0F3FD;
+    -fx-text-fill: white;
+}
+
+.button:default {
+    -fx-background-color: #6172BE;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+    -fx-background-color: #6172BE;
 }
 
 .dialog-pane {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #F0F3FD;
 }
 
 .dialog-pane > *.button-bar > *.container {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #F0F3FD;
 }
 
 .dialog-pane > *.label.content {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-.dialog-pane:header *.header-panel {
-    -fx-background-color: derive(#1d1d1d, 25%);
-}
-
-.dialog-pane:header *.header-panel *.label {
-    -fx-font-size: 18px;
-    -fx-font-style: italic;
-    -fx-fill: white;
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
 }
 
 .schedule-pane {
-     -fx-border-color: derive(#1d1d1d, 20%);
-     -fx-border-width: 10px;
+     -fx-border-width: 0;
 }
 
 .scroll-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:vertical .track,
+.scroll-bar:vertical .track-background {
+    -fx-background-color: transparent;
+    -fx-padding: 2 0 0 0;
+    -fx-pref-width: 12;
+}
+
+.scroll-bar:horizontal,
+.scroll-bar:horizontal .track,
+.scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 10;
+    -fx-pref-height: 12;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: derive(#1d1d1d, 50%);
-    -fx-background-insets: 3;
+    -fx-background-color: #EAECF3;
+    -fx-effect: dropshadow(three-pass-box, #00000035, 7, 0, 0, 0);
 }
 
-.scroll-bar .increment-button, .scroll-bar .decrement-button {
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
     -fx-background-color: transparent;
     -fx-padding: 0 0 0 0;
 }
 
-.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
     -fx-shape: " ";
 }
 
-.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
     -fx-padding: 1 8 1 8;
 }
 
-.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+.scroll-bar:horizontal .increment-arrow,
+.scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
 }
 
@@ -270,18 +346,22 @@
 
 #commandTypeLabel {
     -fx-font-size: 11px;
-    -fx-text-fill: #F70D1A;
+    -fx-text-fill: #424874;
 }
 
 #commandTextField {
-    -fx-background-color: transparent #383838 transparent #383838;
+    -fx-background-color: #A6B1E160;
     -fx-background-insets: 0;
-    -fx-border-color: #383838 #383838 #ffffff #383838;
+    -fx-border-color: transparent;
+    -fx-background-radius: 12;
     -fx-border-insets: 0;
-    -fx-border-width: 1;
     -fx-font-family: "Open Sans Light";
+    -fx-padding: 7 15 7 15;
     -fx-font-size: 13pt;
-    -fx-text-fill: white;
+    -fx-text-fill: #424874;
+    -fx-prompt-text-fill: #424874AF;
+    -fx-highlight-fill: #A6B1E1F0;
+    -fx-highlight-text-fill: #424874;
 }
 
 #filterField, #personListPanel, #personWebpage {
@@ -289,34 +369,77 @@
 }
 
 #resultDisplay .content {
-    -fx-background-color: transparent, #383838, transparent, #383838;
-    -fx-background-radius: 0;
+    -fx-background-color: #d5daf2;
+}
+
+.result-display {
+    -fx-background-color: #d5daf2;
+    -fx-background-radius: 15;
+    -fx-padding: 5 5 3 5;
 }
 
 #tags {
     -fx-hgap: 7;
-    -fx-vgap: 3;
+    -fx-vgap: 5;
+    -fx-padding: 3 0 3 0;
 }
 
 #tags .label {
     -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
-    -fx-padding: 1 3 1 3;
+    -fx-background-color: #8390C9;
     -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-font-size: 12;
+    -fx-padding: 3 12 3 12;
+    -fx-background-insets: 2 0 3 0;
+    -fx-background-radius: 20;
 }
 
 #homeworkList {
     -fx-hgap: 7;
     -fx-vgap: 5;
+    -fx-padding: 3 0 3 0;
 }
 
 #homeworkList .label {
     -fx-text-fill: white;
-    -fx-background-color: #e59d65;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-background-color: #F2A861;
+    -fx-padding: 3 12 3 12;
+    -fx-background-radius: 20;
+    -fx-background-insets: 2 0 3 0;
+    -fx-font-size: 12;
+    -fx-wrap-text: true;
+}
+
+.text-area {
+    -fx-highlight-fill: #A6B1E1F0;
+    -fx-highlight-text-fill: #424874;
+}
+
+.text-area .corner {
+    -fx-background-color: transparent;
+}
+
+#saveLocationStatus {
+    -fx-text-fill: white;
+}
+
+#placeholder {
+    -fx-text-fill: #424874AF;
+    -fx-font-family: "Open Sans Regular";
+}
+
+.name_box {
+    -fx-background-color: #8390C9;
+    -fx-text-fill: white;
+    -fx-background-radius: 15 15 0 0;
+}
+
+#lessonListView, #personListView, #tagListView {
+    -fx-background-radius: 0 0 15 15;
+}
+
+.student_title_box {
+    -fx-background-color: #8390C9;
+    -fx-text-fill: white;
+    -fx-background-radius: 15 15 0 0;
 }

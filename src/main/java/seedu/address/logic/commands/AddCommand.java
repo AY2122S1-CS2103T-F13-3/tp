@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACAD_STREAM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FEE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT_PHONE;
@@ -35,7 +34,6 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_SCHOOL + "SCHOOL] "
             + "[" + PREFIX_ACAD_STREAM + "ACAD_STREAM] "
             + "[" + PREFIX_ACAD_LEVEL + "ACAD_LEVEL] "
-            + "[" + PREFIX_FEE + "FEE] "
             + "[" + PREFIX_REMARK + "REMARK] "
             + "[" + PREFIX_TAG + "TAG]...";
 
@@ -51,7 +49,6 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_SCHOOL + "SJI "
             + PREFIX_ACAD_STREAM + "Express "
             + PREFIX_ACAD_LEVEL + "S1 "
-            + PREFIX_FEE + "50 "
             + PREFIX_REMARK + "weak at trigo "
             + PREFIX_TAG + "retained "
             + PREFIX_TAG + "new";

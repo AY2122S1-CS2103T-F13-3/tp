@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
 public class Date implements Comparable<Date> {
-
     public static final String MESSAGE_CONSTRAINTS = "Dates should be of the format dd MMM yyyy "
             + "and adhere to the following constraints:\n"
             + "1. dd and yyyy are numerical characters.\n"
@@ -37,9 +36,12 @@ public class Date implements Comparable<Date> {
             .toFormatter(Locale.ENGLISH)
             .withResolverStyle(ResolverStyle.STRICT);
 
+    public static final Date MAX_DATE = new Date(LocalDate.MAX.format(Date.FORMATTER));
+
     public final String value;
 
     private final LocalDate localDate;
+
     /**
      * Constructs an {@code Date}.
      *
@@ -75,6 +77,11 @@ public class Date implements Comparable<Date> {
         return localDate;
     }
 
+    /**
+     * Returns the day of the week of this date.
+     *
+     * @return Day of the week of this date.
+     */
     public DayOfWeek getDayOfWeek() {
         return localDate.getDayOfWeek();
     }
@@ -99,6 +106,27 @@ public class Date implements Comparable<Date> {
     }
 
     /**
+     * Returns the latest date on the given day of week before or equal to the date.
+     *
+     * @return prevDate The latest passed date on the given day on the week.
+     */
+    public Date getPreviousDate(DayOfWeek dayOfWeek) {
+        LocalDate earlierDate = getLocalDate().isAfter(LocalDate.now()) ? LocalDate.now() : getLocalDate();
+        LocalDate updatedDate = earlierDate.with(TemporalAdjusters.previousOrSame(dayOfWeek));
+        Date prevDate = new Date(updatedDate.format(FORMATTER));
+        return prevDate;
+    }
+
+    /**
+     * Returns true if the date is between the start and end date, inclusive.
+     */
+    public boolean isDateBetween(LocalDate start, LocalDate end) {
+        boolean isAfterOrEqualsStart = getLocalDate().isAfter(start) || getLocalDate().isEqual(start);
+        boolean isBeforeOrEqualsEnd = getLocalDate().isBefore(end) || getLocalDate().isEqual(end);
+        return isAfterOrEqualsStart && isBeforeOrEqualsEnd;
+    }
+
+    /**
      * Checks if the date has passed.
      *
      * @return True if date is earlier than now.
@@ -116,6 +144,10 @@ public class Date implements Comparable<Date> {
         return localDate.isAfter(other.localDate);
     }
 
+    public boolean isBefore(Date other) {
+        return localDate.isBefore(other.localDate);
+    }
+
     /**
      * Checks if this date is on the same day of the week as the specified date.
      *
@@ -131,13 +163,18 @@ public class Date implements Comparable<Date> {
      * @param recurringStartDate The start date of the weekly recurrence.
      * @return True if this date is on a recurring date, false otherwise.
      */
-    public boolean isOnRecurringDate(Date recurringStartDate) {
+    public boolean isOnRecurringDate(Date recurringStartDate, Date recurringEndDate) {
         if (recurringStartDate.isAfter(this)) {
             return false;
         }
         if (!recurringStartDate.isSameDayOfWeek(this)) {
             return false;
         }
+
+        if (recurringEndDate.isBefore(this)) {
+            return false;
+        }
+
         return true;
     }
 

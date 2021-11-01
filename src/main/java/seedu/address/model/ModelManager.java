@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -115,6 +116,18 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Set<String> getClashingLessonsString(Lesson lesson) {
+        requireNonNull(lesson);
+        return addressBook.getClashingLessonsString(lesson);
+    }
+
+    @Override
+    public Set<String> getClashingLessonsString(Lesson lesson, Lesson lessonToIgnore) {
+        requireNonNull(lesson);
+        return addressBook.getClashingLessonsString(lesson, lessonToIgnore);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
@@ -148,6 +161,11 @@ public class ModelManager implements Model {
         return addressBook.getUpcomingLessons();
     }
 
+    @Override
+    public void updateUpcomingLessons() {
+        addressBook.updateUpcomingLessons();
+    }
+
     /**
      * Returns an unmodifiable view of the observable tag list.
      */
@@ -176,6 +194,18 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    //=========== Last Updated Accessors =============================================================
+
+    @Override
+    public LastUpdatedDate getLastUpdatedDate() {
+        return addressBook.getLastUpdatedDate();
+    }
+
+    @Override
+    public void setLastUpdatedDate() {
+        addressBook.setLastUpdatedDate(new LastUpdatedDate());
     }
 
     @Override

@@ -41,6 +41,7 @@
 .list-view .virtual-flow .scroll-bar:horizontal .track,
 .list-view .virtual-flow .scroll-bar:horizontal .track-background {
     -fx-background-color: #E1E4F0;
+    -fx-pref-width: 12;
 }
 
 .list-view .virtual-flow .scroll-bar .increment-button,
@@ -79,7 +80,22 @@
 #homeworkList .label {
     -fx-text-fill: white;
     -fx-background-color: #F2A861;
-    -fx-padding: 3 12 3 12;
+    -fx-font-family: "Open Sans SemiBold";
+    -fx-padding: 5 12 5 12;
     -fx-background-radius: 20;
     -fx-font-size: 14;
+    -fx-background-insets: 2 0 3 0;
+    -fx-wrap-text: true;
+}
+
+.cell_medium_label {
+    -fx-font-family: "Open Sans SemiBold";
+    -fx-font-size: 14px;
+    -fx-text-fill: #424874;
+}
+
+.cell_small_label {
+    -fx-font-family: "Open Sans Regular";
+    -fx-font-size: 14px;
+    -fx-text-fill: #424874;
 }

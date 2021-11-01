@@ -15,10 +15,12 @@
     "tagged" : [ "friends" ],
     "lessons" : [ {
       "date" : "09 OCT 2021",
+      "endDate" : "31 OCT 2021",
       "timeRange" : "1030-1230",
       "subject" : "Math",
       "homework" : [ ],
       "lessonRates" : "37.50",
+      "outstandingFees" : "100.00",
       "isRecurring" : true
     } ]
   }, {
@@ -36,11 +38,16 @@
     "tagged" : [ "owesMoney", "friends" ],
     "lessons" : [ {
       "date" : "16 OCT 2021",
+      "endDate" : "1 JAN 2022",
       "timeRange" : "1030-1230",
       "subject" : "Science",
       "homework" : [ "TYS Page 2" ],
       "lessonRates" : "37.50",
+      "outstandingFees" : "100.00",
       "isRecurring" : false
     } ]
-  } ]
+  } ],
+  "lastUpdated": {
+    "dateTime": "2021-10-23T10:15"
+  }
 }

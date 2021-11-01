@@ -29,8 +29,8 @@ public class LessonAddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "ladd";
 
-    public static final String COMMAND_PARAMETERS = "INDEX (must be a positive integer) "
-            + "[" + PREFIX_RECURRING + "] "
+    public static final String COMMAND_PARAMETERS = "INDEX "
+            + "[" + PREFIX_RECURRING + "[END_DATE]] "
             + PREFIX_DATE + "dd MMM yyyy "
             + PREFIX_TIME + "HHmm-HHmm "
             + PREFIX_RATES + "RATES "
@@ -70,6 +70,10 @@ public class LessonAddCommand extends UndoableCommand {
 
     public static final String MESSAGE_ADD_LESSON_SUCCESS = "Added new lesson for student %1$s:\n%2$s";
     public static final String MESSAGE_CLASHING_LESSON = "This lesson clashes with an existing lesson.";
+    public static final String MESSAGE_INVALID_DATE_RANGE = "The end date cannot be earlier than the start date. Please"
+            + " specify a valid date range.\n"
+            + "You can specify the start date with " + PREFIX_DATE + "DATE and the end date with "
+            + PREFIX_RECURRING + "END_DATE";
 
     private final Index index;
     private final Lesson toAdd;
@@ -112,7 +116,14 @@ public class LessonAddCommand extends UndoableCommand {
     private Set<Lesson> createUpdatedLessons(Set<Lesson> lessons, Lesson toAdd)
             throws CommandException {
         if (model.hasClashingLesson(toAdd)) {
-            throw new CommandException(MESSAGE_CLASHING_LESSON);
+            Set<String> clashes = model.getClashingLessonsString(toAdd);
+            String clashingLessons = CommandUtil.lessonsToString(clashes);
+            throw new CommandException(MESSAGE_CLASHING_LESSON + clashingLessons);
+        }
+
+        // Check date ranges
+        if (toAdd.getStartDate().isAfter(toAdd.getEndDate())) {
+            throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
         }
 
         Set<Lesson> updatedLessons = new TreeSet<>(lessons);

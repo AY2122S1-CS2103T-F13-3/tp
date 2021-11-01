@@ -32,9 +32,9 @@ public class Person {
     private final AcadStream acadStream;
     private final AcadLevel acadLevel;
     private final Remark remark;
-    private final Fee outstandingFee;
     private final Set<Tag> tags = new HashSet<>();
     private final Set<Lesson> lessons = new TreeSet<>();
+    private final Fee outstandingFees;
 
     /**
      * Every field must be present and not null.
@@ -48,16 +48,15 @@ public class Person {
      * @param school The school of this person.
      * @param acadStream The academic stream of this person.
      * @param acadLevel The academic level of this person.
-     * @param outstandingFee The outstanding fees of this person.
      * @param remark Any remarks on this person.
      * @param tags Tags that categorise this person.
      * @param lessons The Set of Lessons objects that this person will become owner of.
      */
     public Person(Name name, Phone phone, Email email, Phone parentPhone, Email parentEmail,
                   Address address, School school, AcadStream acadStream, AcadLevel acadLevel,
-                  Fee outstandingFee, Remark remark, Set<Tag> tags, Set<Lesson> lessons) {
+                  Remark remark, Set<Tag> tags, Set<Lesson> lessons) {
         requireAllNonNull(name, phone, email, parentPhone, parentEmail, address,
-                school, acadStream, outstandingFee, remark, tags, lessons);
+                school, acadStream, acadLevel, remark, tags, lessons);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -67,10 +66,10 @@ public class Person {
         this.school = school;
         this.acadStream = acadStream;
         this.acadLevel = acadLevel;
-        this.outstandingFee = outstandingFee;
         this.remark = remark;
         this.tags.addAll(tags);
         this.lessons.addAll(lessons);
+        outstandingFees = new Fee(lessons);
     }
     public Name getName() {
         return name;
@@ -108,9 +107,7 @@ public class Person {
         return acadLevel;
     }
 
-    public Fee getFee() {
-        return outstandingFee;
-    }
+    //requires a get Fee method
 
     public Remark getRemark() {
         return remark;
@@ -150,6 +147,10 @@ public class Person {
      */
     public Set<Lesson> getLessons() {
         return Collections.unmodifiableSet(lessons);
+    }
+
+    public Fee getOutstandingFees() {
+        return outstandingFees;
     }
 
     /**
@@ -196,23 +197,27 @@ public class Person {
                 && otherPerson.getSchool().equals(getSchool())
                 && otherPerson.getAcadStream().equals(getAcadStream())
                 && otherPerson.getAcadLevel().equals(getAcadLevel())
-                && otherPerson.getFee().equals(getFee())
                 && otherPerson.getRemark().equals(getRemark())
                 && otherPerson.getTags().equals(getTags())
-                && otherPerson.getLessons().equals(getLessons());
+                && otherPerson.getLessons().equals(getLessons())
+                && otherPerson.getOutstandingFees().equals(getOutstandingFees());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, phone, email, parentPhone, parentEmail, address,
-                school, acadStream, acadLevel, outstandingFee, remark, tags);
+                school, acadStream, acadLevel, remark, tags);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append("; Address: ").append(getAddress());
+        builder.append(getName())
+                .append("; Address: ")
+                .append(getAddress())
+                .append("; Outstanding Fees: ")
+                .append(getOutstandingFees());
 
         if (!getPhone().isEmpty()) {
             builder.append("; Phone: ").append(getPhone());
@@ -240,10 +245,6 @@ public class Person {
 
         if (!getAcadLevel().isEmpty()) {
             builder.append("; Academic Level: ").append(getAcadLevel());
-        }
-
-        if (!getFee().isEmpty()) {
-            builder.append("; Outstanding Fees: ").append(getFee());
         }
 
         if (!getRemark().isEmpty()) {

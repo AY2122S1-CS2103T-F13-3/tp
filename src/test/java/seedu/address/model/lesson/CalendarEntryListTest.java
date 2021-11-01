@@ -146,5 +146,4 @@ public class CalendarEntryListTest {
         List<Person> listWithClashingLessons = Arrays.asList(aliceWithLesson, bobWithLesson);
         assertThrows(ClashingLessonException.class, () -> calendarEntryList.resetLessons(listWithClashingLessons));
     }
-
 }
