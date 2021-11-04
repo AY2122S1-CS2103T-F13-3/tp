@@ -60,9 +60,7 @@ public class LessonEditCommand extends UndoableCommand {
     public static final String COMMAND_EXAMPLE = COMMAND_WORD + " 1 1 "
             + PREFIX_HOMEWORK + "Textbook Pg2 "
             + PREFIX_SUBJECT + "Biology "
-            + PREFIX_CANCEL + "5 oct 2021 "
-            + PREFIX_UNCANCEL + "12 oct 2021";
-
+            + PREFIX_CANCEL + "12 nov 2021 ";
 
     public static final String COMMAND_FORMAT = COMMAND_WORD + " " + COMMAND_PARAMETERS;
 

@@ -56,9 +56,8 @@ public class FindCommand extends Command {
     public static final String COMMAND_EXAMPLE = COMMAND_WORD + " "
             + PREFIX_FIND_CONDITION + "any "
             + PREFIX_NAME + "Alex Yeo "
-            + PREFIX_ADDRESS + "Aljunied "
-            + PREFIX_SCHOOL + "nyjc "
-            + PREFIX_TAG + "unpaid " + PREFIX_TAG + "zoom";
+            + PREFIX_TIME + "1400-1600 "
+            + PREFIX_TAG + "unpaid " + PREFIX_TAG + "new";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all students whose fields contain any of the "
             + "specified keywords (case-insensitive).\n"
@@ -76,9 +75,9 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_TAG_KEYWORD_CONSTRAINTS = String.format("Tag can only take one keyword. "
             + "To search for multiple tags, use multiple %1$s \n"
-            + "Example: find %1$sunpaid %1$szoom", PREFIX_TAG);
+            + "Example: find %1$sunpaid %1$snew", PREFIX_TAG);
 
-    public static final String MESSAGE_FIND_RESULTS = "%1$d students found who %2$s";
+    public static final String MESSAGE_FIND_RESULTS = "%1$d student(s) found who %2$s";
 
     private final Predicate<Person> predicate;
 

@@ -82,7 +82,7 @@ public class SampleDataUtil {
                     EMPTY_CANCELLED_DATES_SET),
             new RecurringLesson(
                     getDate(LocalDate.now().withDayOfMonth(8).minusWeeks(4)),
-                    getDate(LocalDate.MAX),
+                    getDate(LocalDate.now().withDayOfMonth(8).plusWeeks(12)),
                     new TimeRange("1200-1400"),
                     new Subject("Math"),
                     getHomeworkSet("Ch7 pg10"),
