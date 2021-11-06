@@ -278,6 +278,9 @@ the `LessonListPanel`, which contains a `ListView` of multiple `LessonCard`s.
 The list of lessons is displayed side by side the list of students. The `ViewCommand` is used to specify which student's
 list of lessons to view. The `PersonListPanel` also has a listener that displays the selected student's list of lesson.<br>
 
+![viewLessons](images/viewLessons.png)
+  <div class="caption">A list of lessons for the 1st student is shown on the lesson panel.</div>
+
 #### Design considerations:
 
 **Aspect: Data Structures to support lesson operations**
