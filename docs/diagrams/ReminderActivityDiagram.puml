@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User adds a valid non-clashing lesson to a student.;
+:TAB converts the lesson to a calendar entry to be added to the calendar view.;
+
+if () then ([lesson is upcoming])
+    if () then ([lesson does not exist in reminder list])
+        :TAB adds the lesson entry to the reminder list.;
+    else ([else])
+    endif;
+
+else ([else])
+
+endif
+
+stop
+
+@enduml

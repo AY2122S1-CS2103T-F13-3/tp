@@ -1,0 +1,26 @@
+@startuml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+
+title Initial state
+
+package Tag <<rectangle>> {
+    object "<u>t:Tag" as Tag {
+        tagName = UNPAID
+    }
+}
+
+package Person <<rectangle>> {
+    object "<u>alex:Person" as Alex {
+        name = Alex
+    }
+    object "<u>bernice:Person" as Bernice {
+        name = Bernice
+    }
+}
+
+Bernice -[hidden]-> Alex
+
+Bernice <-r-> Tag
+
+@end

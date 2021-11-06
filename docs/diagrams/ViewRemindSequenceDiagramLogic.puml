@@ -1,0 +1,45 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant "logic:Logic" as Logic LOGIC_COLOR
+participant "addressBookParser:AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant "command:RemindCommand" as RemindCommand LOGIC_COLOR
+participant "command:RemindCommand" as RemindCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+
+[-> Logic : execute("remind")
+activate Logic
+
+Logic -> AddressBookParser : parseCommand("remind")
+activate AddressBookParser
+
+create RemindCommand
+AddressBookParser -> RemindCommand
+activate RemindCommand
+
+RemindCommand --> AddressBookParser : command
+deactivate RemindCommand
+
+AddressBookParser --> Logic : command
+deactivate AddressBookParser
+
+Logic -> RemindCommand : execute()
+activate RemindCommand
+
+create CommandResult
+RemindCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> RemindCommand : commandResult
+deactivate CommandResult
+
+RemindCommand --> Logic : commandResult
+deactivate RemindCommand
+
+[<-- Logic : commandResult
+deactivate Logic
+
+@enduml

@@ -19,6 +19,17 @@ Class ReadOnlyUserPrefs
 package "Person" {
     Class UniquePersonList
     Class Person
+    Class Name
+    Class Address
+    Class Phone
+    Class Email
+    Class ParentPhone
+    Class ParentEmail
+    Class School
+    Class AcadStream
+    Class AcadLevel
+    Class Fee
+    Class Remark
 }
 
 package "Tag" {
@@ -30,6 +41,12 @@ package "Tag" {
 package "Lesson" {
     Class CalendarEntryList
     Class "{abstract}\nLesson" as Lesson
+    Class RecurringLesson
+    Class MakeUpLesson
+    Class Date
+    Class TimeRange
+    Class Subject
+    Class Homework
 }
 
 }
@@ -48,27 +65,40 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
+Person *--> Name
+Person *--> Address
+Person *--> Phone
+Person *--> Email
+Person *--> ParentPhone
+Person *--> ParentEmail
+Person *--> School
+Person *--> AcadStream
+Person *--> AcadLevel
+Person *--> Fee
+Person *--> Remark
 Person *--> "*" Tag
 Person *--> "*" Lesson
 
-AddressBook *--> "1" CalendarEntryList
+AddressBook *-----> "1" CalendarEntryList
 CalendarEntryList --> "~* all" Lesson
+RecurringLesson -up-|> Lesson
+MakeUpLesson -up-|> Lesson
 
-note bottom
-Details of Lesson is given in another
-diagram under Lesson Management section.
-end note
+Lesson *-up-> Date
+Lesson *-up-> TimeRange
+Lesson *-up-> Subject
+Lesson *-up-> "*" Homework
 
-AddressBook *--> "1" UniqueTagList
+AddressBook *------> "1" UniqueTagList
 UniqueTagList --> "~*" Tag
 
-UniqueTagList -[hidden]right-> UniquePersonList
-CalendarEntryList -[hidden]right-> UniquePersonList
 
+MakeUpLesson -[hidden]right-> RecurringLesson
+
+Name -[hidden]right-> Address
+Address -[hidden]right-> Phone
+Phone -[hidden]right-> Email
+Email -[hidden]right-> ParentPhone
+ParentPhone -[hidden]right-> ParentEmail
 ModelManager -->"~* filtered" Person
-
-note bottom
-Details of Person is given in another diagram.
-end note
-
 @enduml
